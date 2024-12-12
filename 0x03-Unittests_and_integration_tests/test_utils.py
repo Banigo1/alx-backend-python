@@ -22,19 +22,29 @@ The body of the test method should not be longer than 2 lines.
 """
 import unittest
 from parameterized import parameterized
-from utils import access_nested_map
+from typing import Any, Mapping, Sequence
+
+def access_nested_map(nested_map: Mapping, path: Sequence) -> Any:
+    """Access nested map with key path."""
+    for key in path:
+        if not isinstance(nested_map, Mapping):
+            raise KeyError(key)
+        nested_map = nested_map[key]
+    return nested_map
 
 class TestAccessNestedMap(unittest.TestCase):
-    """Test cases for the access_nested_map function."""
 
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
+        ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
     def test_access_nested_map(self, nested_map, path, expected):
-        """Test access_nested_map with various inputs."""
         self.assertEqual(access_nested_map(nested_map, path), expected)
+
+if __name__ == '__main__':
+    unittest.main()
+
 
 
 """
