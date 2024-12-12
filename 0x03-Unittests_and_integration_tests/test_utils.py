@@ -20,38 +20,36 @@ For each of these inputs, test with assertEqual that the function returns the ex
 The body of the test method should not be longer than 2 lines.
 
 """
-"""
 import unittest
 from parameterized import parameterized
-from typing import Any, Mapping, Sequence
 
-import unittest
-from parameterized import parameterized
-from typing import Any, Mapping, Sequence
-
-def access_nested_map(nested_map: Mapping, path: Sequence) -> Any:
-    """Access nested map with key path."""
-    for key in path:
-        if not isinstance(nested_map, Mapping):
-            raise KeyError(key)
-        nested_map = nested_map[key]
-    return nested_map
+import utils
 
 class TestAccessNestedMap(unittest.TestCase):
 
     @parameterized.expand([
+        # Basic cases
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2)
+        ({"a": {"b": 2}}, ("a", "b"), 2),
+
+        # Edge cases
+        ({}, ("a",), KeyError),  # Empty dictionary
+        ({"a": 1}, ("a", "b"), KeyError),  # Non-existent key
+        ({"a": [1, 2]}, ("a", 0), 1),  # List access
+        ({"a": {"b": None}}, ("a", "b"), None),  # None value
     ])
-    def test_access_nested_map(self, nested_map, path, expected):
-        result = access_nested_map(nested_map, path)
-        print(f"Got: {result} (expected: {expected})")
-        self.assertEqual(result, expected)
+    def test_access_nested_map(self, nested_map, path, expected_result):
+        if isinstance(expected_result, type):
+            with self.assertRaises(expected_result):
+                utils.access_nested_map(nested_map, path)
+        else:
+            result = utils.access_nested_map(nested_map, path)
+            self.assertEqual(result, expected_result)
 
 if __name__ == '__main__':
     unittest.main()
-"""
+    
 
 
 
