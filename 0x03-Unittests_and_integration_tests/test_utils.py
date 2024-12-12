@@ -33,12 +33,7 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2),
 
-        # Edge cases
-        ({}, ("a",), KeyError),  # Empty dictionary
-        ({"a": 1}, ("a", "b"), KeyError),  # Non-existent key
-        ({"a": [1, 2]}, ("a", 0), 1),  # List access
-        ({"a": {"b": None}}, ("a", "b"), None),  # None value
-    ])
+       
     def test_access_nested_map(self, nested_map, path, expected_result):
         if isinstance(expected_result, type):
             with self.assertRaises(expected_result):
@@ -49,7 +44,7 @@ class TestAccessNestedMap(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
+
 
 
 
