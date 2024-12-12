@@ -24,6 +24,10 @@ import unittest
 from parameterized import parameterized
 from typing import Any, Mapping, Sequence
 
+import unittest
+from parameterized import parameterized
+from typing import Any, Mapping, Sequence
+
 def access_nested_map(nested_map: Mapping, path: Sequence) -> Any:
     """Access nested map with key path."""
     for key in path:
@@ -40,10 +44,13 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
     def test_access_nested_map(self, nested_map, path, expected):
-        self.assertEqual(access_nested_map(nested_map, path), expected)
+        result = access_nested_map(nested_map, path)
+        print(f"Got: {result} (expected: {expected})")
+        self.assertEqual(result, expected)
 
 if __name__ == '__main__':
     unittest.main()
+
 
 
 
