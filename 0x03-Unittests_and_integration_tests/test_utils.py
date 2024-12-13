@@ -1,4 +1,12 @@
 #!/usr/bin/env python3
+
+import unittest
+from functools import wraps
+from parameterized import parameterized
+from utils import access_nested_map, get_json, memoize
+from typing import Dict, Tuple, Union
+from unittest.mock import patch, Mock
+
 """
 Task 1
 
@@ -20,14 +28,8 @@ For each of these inputs, test with assertEqual that the function returns the ex
 The body of the test method should not be longer than 2 lines.
 
 """
-#!/usr/bin/env python3
-""" create class TestAccessNestedMap """
-import unittest
-from parameterized import parameterized
-from utils import access_nested_map, get_json, memoize
-from typing import Dict, Tuple, Union
-from unittest.mock import patch, Mock
 
+""" create class TestAccessNestedMap """
 
 class TestAccessNestedMap(unittest.TestCase):
     """ try test with utils.access_nested_map """
@@ -55,9 +57,6 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(ex):
             access_nested_map(map, path)
 
-
-
-
 """
 Task 2
 
@@ -68,7 +67,6 @@ nested_map={"a": 1}, path=("a", "b")
 Also make sure that the exception message is as expected.
 
 """
-
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
 
@@ -81,8 +79,6 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
         self.assertEqual(str(context.exception), f"'{path[-1]}'")
-
-
         """
         Task 3
         
@@ -108,11 +104,6 @@ class TestAccessNestedMap(unittest.TestCase):
     but a_method is only called once using assert_called_once.
         
         """
-
-import unittest
-from unittest.mock import patch
-from functools import wraps
-
 def memoize(func):
     """A decorator that caches the results of a function call."""
     cache = {}
@@ -148,7 +139,6 @@ The method calls a_property twice and asserts that it returns the correct value.
 Finally, it checks that a_method was called only once using assert_called_once
 
     """
-    
     @patch.object(TestClass, 'a_method', return_value=42)
     def test_memoize(self, mock_a_method):
         obj = TestClass()
@@ -166,3 +156,4 @@ Finally, it checks that a_method was called only once using assert_called_once
 
 if __name__ == '__main__':
     unittest.main()
+    
