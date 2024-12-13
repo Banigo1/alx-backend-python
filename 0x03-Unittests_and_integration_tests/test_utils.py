@@ -35,10 +35,8 @@ The function should return the expected result based on the input map and path.
         self.assertEqual(access_nested_map(map, path), ex)
 
     @parameterized.expand([
-        ({}, ("a",), KeyError),
-        ({"a": 1}, ("a", "b"), KeyError),
-    # Test case: Empty map raises KeyError
-    # Test case: Valid key but invalid nested key raises KeyError
+        ({}, ("a",), KeyError), # Test case: Empty map raises KeyError
+        ({"a": 1}, ("a", "b"), KeyError),  # Test case: Valid key but invalid nested key raises KeyError
     ])
     def test_access_nested_map_exception(self, map: Dict, path: Tuple[str], ex: Exception) -> None:
         """Test that KeyError is raised for invalid paths.
