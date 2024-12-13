@@ -22,7 +22,7 @@ class TestAccessNestedMap(unittest.TestCase):
     def test_access_nested_map(
         self, map: Dict, path: Tuple[
             str], ex: Union[Dict, int]) -> None:
-        """Test that access_nested_map returns expected results for given inputs.
+"""Test that access_nested_map returns expected results for given inputs.
 
     Args:
     map (Dict): The nested dictionary to test.
@@ -30,13 +30,15 @@ class TestAccessNestedMap(unittest.TestCase):
     ex (Union[Dict, int]): The expected result from accessing the nested map.
 
         Asserts:
-            The function should return the expected result based on the input map and path.
+The function should return the expected result based on the input map and path.
         """
         self.assertEqual(access_nested_map(map, path), ex)
 
     @parameterized.expand([
-        ({}, ("a",), KeyError),  # Test case: Empty map raises KeyError
-        ({"a": 1}, ("a", "b"), KeyError),  # Test case: Valid key but invalid nested key raises KeyError
+        ({}, ("a",), KeyError),
+        ({"a": 1}, ("a", "b"), KeyError),
+    # Test case: Empty map raises KeyError
+    # Test case: Valid key but invalid nested key raises KeyError
     ])
     def test_access_nested_map_exception(self, map: Dict, path: Tuple[str], ex: Exception) -> None:
         """Test that KeyError is raised for invalid paths.
