@@ -141,10 +141,13 @@ class TestMemoize(unittest.TestCase):
         TestMemoize Class:
         
 Inherits from unittest.TestCase.
-The test_memoize method uses unittest.mock.patch.object to mock a_method. 
+The test_memoize method uses 
+unittest.mock.patch.object to mock a_method. 
 This allows you to control its behavior during testing.
-The method calls a_property twice and asserts that it returns the correct value.
-Finally, it checks that a_method was called only once using assert_called_once
+The method calls a_property twice and 
+asserts that it returns the correct value.
+Finally, it checks that a_method 
+was called only once using assert_called_once
 
     """
     @patch.object(TestClass,
