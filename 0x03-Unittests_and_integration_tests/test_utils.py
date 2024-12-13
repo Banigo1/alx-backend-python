@@ -1,23 +1,25 @@
 #!/usr/bin/env python3
 
+"""
+test_utils.py
+
+This module contains unit tests for utility functions, specifically for:
+- access_nested_map: A function for accessing nested dictionaries.
+- memoize: A decorator for caching function results.
+
+The tests are organized into classes that use the unittest framework,
+and they utilize parameterized testing to cover various input scenarios.
+
+Usage:
+Run this module to execute the unit tests.
+"""
+
 import unittest
 from functools import wraps
 from parameterized import parameterized
-from utils import access_nested_map, get_json, memoize
+from utils import access_nested_map, memoize
 from typing import Dict, Tuple, Union
 from unittest.mock import patch, Mock
-
-"""Test that access_nested_map returns
-        expected results for given inputs.
-Args:
-    map (Dict): The nested dictionary to test.
-    path (Tuple[str]): The path to access within the nested dictionary.
-    ex (Union[Dict, int]): The expected result from accessing the nested map.
-
-        Asserts:
-        The function should return the expected
-        result based on the input map and path.
-    """
 
 
 class TestAccessNestedMap(unittest.TestCase):
@@ -27,29 +29,30 @@ class TestAccessNestedMap(unittest.TestCase):
         ({'a': 1}, ('a',), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
         ({"a": {"b": 2}}, ("a", "b"), 2),
-        # Test case: Simple key access
-        # Test case: Nested dictionary access
-        # Test case: Deep nested access
+        # Additional test cases can be added here.
     ])
     def test_access_nested_map(
-        self, map: Dict, path: Tuple[
-            str], ex: Union[Dict, int]) -> None:
+        self, map: Dict, path: Tuple[str], ex: Union[Dict, int]
+    ) -> None:
+        """Test that access_nested_map returns expected results for valid inputs.
 
+        Args:
+            map (Dict): The nested dictionary to test.
+            path (Tuple[str]): The path to access within the nested dictionary.
+            ex (Union[Dict, int]): The expected result from accessing the nested map.
+
+        Asserts:
+            The function should return the expected result based on the input map and path.
+        """
         self.assertEqual(access_nested_map(map, path), ex)
 
     @parameterized.expand([
         ({}, ("a",), KeyError),
-        # Test case: Empty map raises KeyError
-
         ({"a": 1}, ("a", "b"), KeyError),
-        # Test case: Valid key but invalid nested key raises KeyError
+        # Additional test cases can be added here.
     ])
     def test_access_nested_map_exception(
-        self,
-        map: Dict,
-        path:
-        Tuple[str],
-        ex: Exception
+        self, map: Dict, path: Tuple[str], ex: Exception
     ) -> None:
         """Test that KeyError is raised for invalid paths.
 
@@ -59,8 +62,7 @@ class TestAccessNestedMap(unittest.TestCase):
             ex (Exception): The expected exception type to be raised.
 
         Asserts:
-            A KeyError should be raised when
-            accessing an invalid path in the nested map.
+            A KeyError should be raised when accessing an invalid path in the nested map.
         """
         with self.assertRaises(ex):
             access_nested_map(map, path)
