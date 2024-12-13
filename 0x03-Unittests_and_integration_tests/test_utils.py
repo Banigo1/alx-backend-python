@@ -45,7 +45,7 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
     def test_access_nested_map(
-        self,map: Dict, path: Tuple[str], ex: Union[Dict, int]) -> None:
+        self,map: Dict,path: Tuple[str],ex: Union[Dict,int]) -> None:
 
         """ test nested map """
         self.assertEqual(access_nested_map(map, path), ex)
