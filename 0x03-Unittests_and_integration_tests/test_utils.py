@@ -36,6 +36,7 @@ The body of the test method should not be longer than 2 lines.
 
 """ create class TestAccessNestedMap """
 
+
 class TestAccessNestedMap(unittest.TestCase):
     """ try test with utils.access_nested_map """
     @parameterized.expand([
@@ -111,6 +112,8 @@ class TestAccessNestedMap(unittest.TestCase):
     but a_method is only called once using assert_called_once.
         
         """
+
+
 def memoize(func):
     """A decorator that caches the results of a function call."""
     cache = {}
@@ -121,6 +124,7 @@ def memoize(func):
         return cache[args]
 
     return wrapper
+
 
 class TestClass:
     """
