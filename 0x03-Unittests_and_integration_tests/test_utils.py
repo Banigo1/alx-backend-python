@@ -31,7 +31,7 @@ class TestAccessNestedMap(unittest.TestCase):
     ex (Union[Dict, int]): The expected result from accessing the nested map.
 
         Asserts:
-            The function should return the expected result based on the input map and path.
+        The function should return the expected result based on the input map and path.
         """
         self.assertEqual(access_nested_map(map, path), ex)
 
