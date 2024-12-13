@@ -39,11 +39,7 @@ The body of the test method should not be longer than 2 lines.
 
 class TestAccessNestedMap(unittest.TestCase):
     """ try test with utils.access_nested_map """
-    @parameterized.expand([
-        ({'a': 1}, ('a',), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2)
-    ])
+    @parameterized.expand([({'a': 1}, ('a',), 1),({"a": {"b": 2}}, ("a",), {"b": 2}),({"a": {"b": 2}}, ("a", "b"), 2)])
     def test_access_nested_map(self,map: Dict,path: Tuple[str],ex: Union[Dict,int]) -> None:
 
         """ test nested map """
