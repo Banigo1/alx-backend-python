@@ -41,7 +41,8 @@ class TestAccessNestedMap(unittest.TestCase):
             map (Dict): The nested dictionary to test.
             path (Tuple[str]): The path to 
             access within the nested dictionary.
-            ex (Union[Dict, int]): The expected result from accessing the nested map.
+            ex (Union[Dict, int]): 
+            The expected result from accessing the nested map.
 
         Asserts:
             The function should return the 
@@ -65,7 +66,8 @@ class TestAccessNestedMap(unittest.TestCase):
             ex (Exception): The expected exception type to be raised.
 
         Asserts:
-            A KeyError should be raised when accessing an invalid path in the nested map.
+            A KeyError should be raised when 
+            accessing an invalid path in the nested map.
         """
         with self.assertRaises(ex):
             access_nested_map(map, path)
