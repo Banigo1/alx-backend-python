@@ -7,10 +7,9 @@ from utils import access_nested_map, get_json, memoize
 from typing import Dict, Tuple, Union
 from unittest.mock import patch, Mock
 
-        """Test that access_nested_map returns
+"""Test that access_nested_map returns
         expected results for given inputs.
-
-    Args:
+Args:
     map (Dict): The nested dictionary to test.
     path (Tuple[str]): The path to access within the nested dictionary.
     ex (Union[Dict, int]): The expected result from accessing the nested map.
@@ -18,7 +17,7 @@ from unittest.mock import patch, Mock
         Asserts:
         The function should return the expected
         result based on the input map and path.
-        """
+    """
 
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
