@@ -10,20 +10,25 @@ from unittest.mock import patch, Mock
 """
 Task 1
 
-Familiarize yourself with the utils.access_nested_map function and understand its purpose. Play with it in the Python console to make sure you understand.
+Familiarize yourself with the utils.access_nested_map 
+function and understand its purpose. 
+Play with it in the Python console to make sure you understand.
 
 In this task you will write the first unit test for utils.access_nested_map.
 
 Create a TestAccessNestedMap class that inherits from unittest.TestCase.
 
-Implement the TestAccessNestedMap.test_access_nested_map method to test that the method returns what it is supposed to.
+Implement the TestAccessNestedMap.test_access_nested_map 
+method to test that the method returns what it is supposed to.
 
-Decorate the method with @parameterized.expand to test the function for following inputs:
+Decorate the method with @parameterized.expand 
+to test the function for following inputs:
 
 nested_map={"a": 1}, path=("a",)
 nested_map={"a": {"b": 2}}, path=("a",)
 nested_map={"a": {"b": 2}}, path=("a", "b")
-For each of these inputs, test with assertEqual that the function returns the expected result.
+For each of these inputs, 
+test with assertEqual that the function returns the expected result.
 
 The body of the test method should not be longer than 2 lines.
 
@@ -39,9 +44,9 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a": {"b": 2}}, ("a", "b"), 2)
     ])
     def test_access_nested_map(self,
-                               map: Dict,
-                               path: Tuple[str],
-                               ex: Union[Dict, int]) -> None:
+        map: Dict,
+        path: Tuple[str],
+        ex: Union[Dict, int]) -> None:
         """ test nested map """
         self.assertEqual(access_nested_map(map, path), ex)
 
@@ -50,9 +55,9 @@ class TestAccessNestedMap(unittest.TestCase):
         ({"a", 1}, ("a", "b"), KeyError),
     ])
     def test_access_nested_map_exception(self,
-                                         map: Dict,
-                                         path: Tuple[str],
-                                         ex: Exception) -> None:
+        map: Dict,
+        path: Tuple[str],
+        ex: Exception) -> None:
         """ test nested loop with exception """
         with self.assertRaises(ex):
             access_nested_map(map, path)
@@ -60,7 +65,9 @@ class TestAccessNestedMap(unittest.TestCase):
 """
 Task 2
 
-Implement TestAccessNestedMap.test_access_nested_map_exception. Use the assertRaises context manager to test that a KeyError is raised for the following inputs (use @parameterized.expand):
+Implement TestAccessNestedMap.test_access_nested_map_exception. 
+Use the assertRaises context manager to test that a KeyError 
+is raised for the following inputs (use @parameterized.expand):
 
 nested_map={}, path=("a",)
 nested_map={"a": 1}, path=("a", "b")
@@ -119,7 +126,8 @@ class TestClass:
     """
         TestClass: Contains two methods:
             a_method: Returns a constant value (42).
-            a_property: Decorated with @memoize, which means it will cache results from calling a_method.
+            a_property: Decorated with @memoize, 
+            which means it will cache results from calling a_method.
     """
     def a_method(self):
         return 42
@@ -139,7 +147,9 @@ The method calls a_property twice and asserts that it returns the correct value.
 Finally, it checks that a_method was called only once using assert_called_once
 
     """
-    @patch.object(TestClass, 'a_method', return_value=42)
+    @patch.object(TestClass,
+     'a_method',
+     return_value=42)
     def test_memoize(self, mock_a_method):
         obj = TestClass()
         
@@ -156,4 +166,3 @@ Finally, it checks that a_method was called only once using assert_called_once
 
 if __name__ == '__main__':
     unittest.main()
-    
