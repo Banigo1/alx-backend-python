@@ -33,7 +33,6 @@ class TestAccessNestedMap(unittest.TestCase):
         Asserts:
         The function should return the expected
         result based on the input map and path.
-        
         """
         self.assertEqual(access_nested_map(map, path), ex)
 
