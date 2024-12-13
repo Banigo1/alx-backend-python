@@ -1,34 +1,35 @@
 #!/usr/bin/env python3
 
 import unittest
-from unittest.mock import patch
-from parameterized import parameterized
-from github_org_client import GithubOrgClient
+from unittest.mock import patch, Mock
+from typing import Dict
 
-class TestGithubOrgClient(unittest.TestCase):
-    """Test GithubOrgClient"""
+def get_json(url: str) -> Dict:
+    """Get JSON from remote URL."""
+    response = requests.get(url)
+    return response.json()
 
+class TestGetJson(unittest.TestCase):
+
+    @patch('requests.get')
     @parameterized.expand([
-        ("google", {"name": "google", "repos_url": "https://api.github.com/orgs/google/repos"}),
-        ("abc", {"name": "abc", "repos_url": "https://api.github.com/orgs/abc/repos"}),
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
     ])
-    @patch("github_org_client.get_json")
-    def test_org(self, org_name, expected_org, mock_get_json):
-        """Test that GithubOrgClient.org returns the correct value"""
-        # Mock the return value of get_json
-        mock_get_json.return_value = expected_org
+    def test_get_json(self, test_url, test_payload, mock_get):
+        # Setup the mock to return a response with the test_payload
+        mock_response = Mock()
+        mock_response.json.return_value = test_payload
+        mock_get.return_value = mock_response
+        
+        # Call the function with the test_url
+        result = get_json(test_url)
+        
+        # Assert the mock was called once with the test_url
+        mock_get.assert_called_once_with(test_url)
+        
+        # Assert the function's output matches the test_payload
+        self.assertEqual(result, test_payload)
 
-        # Create an instance of GithubOrgClient
-        client = GithubOrgClient(org_name)
-
-        # Call the org property
-        result = client.org
-
-        # Assert get_json was called once with the correct URL
-        mock_get_json.assert_called_once_with(f"https://api.github.com/orgs/{org_name}")
-
-        # Assert the result matches the expected organization data
-        self.assertEqual(result, expected_org)
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
