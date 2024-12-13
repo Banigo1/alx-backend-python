@@ -45,7 +45,7 @@ class TestAccessNestedMap(unittest.TestCase):
     ])
     def test_access_nested_map_exception(
         self, map: Dict, path: Tuple[str], ex: Exception) -> None:
-        """Test that KeyError is raised for invalid paths.
+    """Test that KeyError is raised for invalid paths.
 
         Args:
             map (Dict): The nested dictionary to test.
