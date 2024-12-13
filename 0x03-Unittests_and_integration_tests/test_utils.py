@@ -21,6 +21,8 @@ from utils import access_nested_map, memoize
 from typing import Dict, Tuple, Union
 from unittest.mock import patch, Mock
 
+#Task 0
+
 class TestAccessNestedMap(unittest.TestCase):
 
     @parameterized.expand([
@@ -44,6 +46,8 @@ class TestAccessNestedMap(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+#Task 1
 
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
@@ -165,4 +169,31 @@ class TestMemoize(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    unittest.main()
+
+    # Task 2
+
+class TestGetJson(unittest.TestCase):
+
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
+    ])
+    def test_get_json(self, test_url, test_payload):
+        """Test get_json returns expected result and calls requests.get correctly."""
+        # Create a mock response object with a json method
+        mock_response = Mock()
+        mock_response.json.return_value = test_payload
+        
+        # Patch 'requests.get' to return our mock response
+        with patch('requests.get', return_value=mock_response) as mock_get:
+            result = get_json(test_url)
+            
+            # Check that requests.get was called once with the correct URL
+            mock_get.assert_called_once_with(test_url)
+            
+            # Check that the result matches the expected payload
+            self.assertEqual(result, test_payload)
+
+if __name__ == "__main__":
     unittest.main()
