@@ -12,17 +12,17 @@ class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
 
     @parameterized.expand([
-        ({'a': 1}, ('a',), 1),  # Test case: Simple key access
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),  # Test case: Nested dictionary access
-        ({"a": {"b": 2}}, ("a", "b"), 2),  # Test case: Deep nested access
+        ({'a': 1}, ('a',), 1),
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2),
     ])
     def test_access_nested_map(self, map: Dict, path: Tuple[str], ex: Union[Dict, int]) -> None:
         """Test that access_nested_map returns expected results for given inputs.
 
         Args:
-            map (Dict): The nested dictionary to test.
-            path (Tuple[str]): The path to access within the nested dictionary.
-            ex (Union[Dict, int]): The expected result from accessing the nested map.
+        map (Dict): The nested dictionary to test.
+        path (Tuple[str]): The path to access within the nested dictionary.
+        ex (Union[Dict, int]): The expected result from accessing the nested map.
 
         Asserts:
             The function should return the expected result based on the input map and path.
@@ -30,8 +30,8 @@ class TestAccessNestedMap(unittest.TestCase):
         self.assertEqual(access_nested_map(map, path), ex)
 
     @parameterized.expand([
-        ({}, ("a",), KeyError),  # Test case: Empty map raises KeyError
-        ({"a": 1}, ("a", "b"), KeyError),  # Test case: Valid key but invalid nested key raises KeyError
+        ({}, ("a",), KeyError)
+        ({"a": 1}, ("a", "b"), KeyError),
     ])
     def test_access_nested_map_exception(self, map: Dict, path: Tuple[str], ex: Exception) -> None:
         """Test that KeyError is raised for invalid paths.
@@ -80,7 +80,7 @@ class TestClass:
 
     @memoize
     def a_property(self):
-        """Returns the result of a_method, cached by memoization."""
+ """Returns the result of a_method, cached by memoization."""
         return self.a_method()
 
 
