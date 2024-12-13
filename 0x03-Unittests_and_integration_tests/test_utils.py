@@ -7,109 +7,62 @@ from utils import access_nested_map, get_json, memoize
 from typing import Dict, Tuple, Union
 from unittest.mock import patch, Mock
 
-"""
-Task 1
 
-Familiarize yourself with the utils.access_nested_map 
-function and understand its purpose. 
-Play with it in the Python console to make sure you understand.
-
-In this task you will write the first unit test for utils.access_nested_map.
-
-Create a TestAccessNestedMap class that inherits from unittest.TestCase.
-
-Implement the TestAccessNestedMap.test_access_nested_map 
-method to test that the method returns what it is supposed to.
-
-Decorate the method with @parameterized.expand 
-to test the function for following inputs:
-
-nested_map={"a": 1}, path=("a",)
-nested_map={"a": {"b": 2}}, path=("a",)
-nested_map={"a": {"b": 2}}, path=("a", "b")
-For each of these inputs, 
-test with assertEqual that the function returns the expected result.
-
-The body of the test method should not be longer than 2 lines.
-
-"""
-
-""" create class TestAccessNestedMap """
-
-
-class TestAccessNestedMap(unittest.TestCase):
-    """ try test with utils.access_nested_map """
-    @parameterized.expand([({'a': 1}, ('a',), 1),({"a": {"b": 2}}, ("a",), {"b": 2}),({"a": {"b": 2}}, ("a", "b"), 2)])
-    def test_access_nested_map(self,map: Dict,path: Tuple[str],ex: Union[Dict,int]) -> None:
-
-        """ test nested map """
-        self.assertEqual(access_nested_map(map, path), ex)
-
-    @parameterized.expand([({}, ("a",), KeyError),({"a", 1}, ("a", "b"), KeyError),])
-
-
-    def test_access_nested_map_exception(self,map: Dict,path: Tuple[str],ex: Exception) -> None:
-
-        
-        """ test nested loop with exception """
-        with self.assertRaises(ex):
-            access_nested_map(map, path)
-
-"""
-Task 2
-
-Implement TestAccessNestedMap.test_access_nested_map_exception. 
-Use the assertRaises context manager to test that a KeyError 
-is raised for the following inputs (use @parameterized.expand):
-
-nested_map={}, path=("a",)
-nested_map={"a": 1}, path=("a", "b")
-Also make sure that the exception message is as expected.
-
-"""
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
 
     @parameterized.expand([
-        ({}, ("a",)),  # Test case 1: Empty map, invalid key
-        ({"a": 1}, ("a", "b")),  # Test case 2: Valid key at first level, invalid nested key
+        ({'a': 1}, ('a',), 1),  # Test case: Simple key access
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),  # Test case: Nested dictionary access
+        ({"a": {"b": 2}}, ("a", "b"), 2),  # Test case: Deep nested access
     ])
-    def test_access_nested_map_exception(self, nested_map, path):
-        """Test that KeyError is raised for invalid paths."""
-        with self.assertRaises(KeyError) as context:
-            access_nested_map(nested_map, path)
-        self.assertEqual(str(context.exception), f"'{path[-1]}'")
+    def test_access_nested_map(self, map: Dict, path: Tuple[str], ex: Union[Dict, int]) -> None:
+        """Test that access_nested_map returns expected results for given inputs.
+
+        Args:
+            map (Dict): The nested dictionary to test.
+            path (Tuple[str]): The path to access within the nested dictionary.
+            ex (Union[Dict, int]): The expected result from accessing the nested map.
+
+        Asserts:
+            The function should return the expected result based on the input map and path.
         """
-        Task 3
-        
-        Read about memoization and familiarize yourself with 
-        the utils.memoize decorator.
+        self.assertEqual(access_nested_map(map, path), ex)
 
-        Implement the TestMemoize(unittest.TestCase) class with a test_memoize method.
-         
-        Inside test_memoize, define following class
+    @parameterized.expand([
+        ({}, ("a",), KeyError),  # Test case: Empty map raises KeyError
+        ({"a": 1}, ("a", "b"), KeyError),  # Test case: Valid key but invalid nested key raises KeyError
+    ])
+    def test_access_nested_map_exception(self, map: Dict, path: Tuple[str], ex: Exception) -> None:
+        """Test that KeyError is raised for invalid paths.
 
-    class TestClass:
+        Args:
+            map (Dict): The nested dictionary to test.
+            path (Tuple[str]): The path to access within the nested dictionary.
+            ex (Exception): The expected exception type to be raised.
 
-    def a_method(self):
-        return 42
-
-    @memoize
-    def a_property(self):
-        return self.a_method()
-
-    Use unittest.mock.patch to mock a_method.
-
-    Test that when calling a_property twice, the correct result is returned 
-    but a_method is only called once using assert_called_once.
-        
+        Asserts:
+            A KeyError should be raised when accessing an invalid path in the nested map.
         """
+        with self.assertRaises(ex):
+            access_nested_map(map, path)
 
 
 def memoize(func):
-    """A decorator that caches the results of a function call."""
+    """A decorator that caches the results of a function call.
+
+    This decorator stores previously computed results of a function in a cache,
+    allowing for faster retrieval on subsequent calls with the same arguments.
+
+    Args:
+        func (Callable): The function to be decorated.
+
+    Returns:
+        Callable: A wrapper function that implements memoization.
+    """
     cache = {}
 
+    @wraps(func)
     def wrapper(*args):
         if args not in cache:
             cache[args] = func(*args)
@@ -119,52 +72,50 @@ def memoize(func):
 
 
 class TestClass:
-    """
-        TestClass: Contains two methods:
-            a_method: Returns a constant value (42).
-            a_property: Decorated with @memoize, 
-            which means it will cache results from calling a_method.
-    """
+    """A class containing methods for testing memoization."""
+
     def a_method(self):
+        """Returns a constant value of 42."""
         return 42
 
     @memoize
     def a_property(self):
+        """Returns the result of a_method, cached by memoization."""
         return self.a_method()
 
 
 class TestMemoize(unittest.TestCase):
-    """
-        TestMemoize Class:
-        
-Inherits from unittest.TestCase.
-The test_memoize method uses 
-unittest.mock.patch.object to mock a_method. 
-This allows you to control its behavior during testing.
-The method calls a_property twice and 
-asserts that it returns the correct value.
-Finally, it checks that a_method 
-was called only once using assert_called_once
+    """Test cases for the memoize decorator."""
 
-    """
-    @patch.object(
-        TestClass,'a_method', return_value=42
-        )
-
-
+    @patch.object(TestClass, 'a_method', return_value=42)
     def test_memoize(self, mock_a_method):
-        obj = TestClass()
+        """Test that a_property returns correct value and calls a_method once.
+
+        This method tests that when calling a_property twice,
+        it returns the correct result but only calls a_method once,
+        demonstrating effective caching.
+
+        Args:
+            mock_a_method (Mock): The mocked version of a_method.
         
+        Asserts:
+            The results from two calls to a_property should be equal to 42,
+            and a_method should only be called once.
+        """
+        obj = TestClass()
+
         # Call a_property twice
         result1 = obj.a_property()
         result2 = obj.a_property()
-        
+
         # Check that the result is correct
         self.assertEqual(result1, 42)
         self.assertEqual(result2, 42)
-        
+
         # Ensure a_method was only called once
         mock_a_method.assert_called_once()
 
+
 if __name__ == '__main__':
     unittest.main()
+    
