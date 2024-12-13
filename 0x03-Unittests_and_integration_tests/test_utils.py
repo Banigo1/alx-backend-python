@@ -50,8 +50,7 @@ class TestAccessNestedMap(unittest.TestCase):
         """ test nested map """
         self.assertEqual(access_nested_map(map, path), ex)
 
-    @parameterized.expand([({}, ("a",), KeyError),({"a", 1}, ("a", "b"), KeyError),
-    ])
+    @parameterized.expand([({}, ("a",), KeyError),({"a", 1}, ("a", "b"), KeyError),])
 
 
     def test_access_nested_map_exception(self,
@@ -158,7 +157,7 @@ was called only once using assert_called_once
         TestClass,'a_method', return_value=42
         )
 
-        
+
     def test_memoize(self, mock_a_method):
         obj = TestClass()
         
