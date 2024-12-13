@@ -54,7 +54,7 @@ class TestAccessNestedMap(unittest.TestCase):
         """ test nested loop with exception """
         with self.assertRaises(ex):
             access_nested_map(map, path)
-            
+
 
 
 
@@ -81,3 +81,71 @@ class TestAccessNestedMap(unittest.TestCase):
         with self.assertRaises(KeyError) as context:
             access_nested_map(nested_map, path)
         self.assertEqual(str(context.exception), f"'{path[-1]}'")
+
+
+        """
+        Task 3
+        
+        Read about memoization and familiarize yourself with the utils.memoize decorator.
+
+        Implement the TestMemoize(unittest.TestCase) class with a test_memoize method.
+         
+        Inside test_memoize, define following class
+
+class TestClass:
+
+    def a_method(self):
+        return 42
+
+    @memoize
+    def a_property(self):
+        return self.a_method()
+
+Use unittest.mock.patch to mock a_method.
+
+Test that when calling a_property twice, the correct result is returned but a_method is only called once using assert_called_once.
+        
+        """
+
+import unittest
+from unittest.mock import patch
+from functools import wraps
+
+
+def memoize(func):
+    cache = {}
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        key = str(args) + str(kwargs)
+        if key not in cache:
+            cache[key] = func(*args, **kwargs)
+        return cache[key]
+
+    return wrapper
+
+
+class TestClass:
+    def a_method(self):
+        return 42
+
+    @memoize
+    def a_property(self):
+        return self.a_method()
+
+
+class TestMemoize(unittest.TestCase):
+    def test_memoize(self):
+        with patch.object(TestClass, 'a_method') as mock_method:
+            test_instance = TestClass()
+
+            result1 = test_instance.a_property
+            result2 = test_instance.a_property
+
+            self.assertEqual(result1, 42)
+            self.assertEqual(result2, 42)
+            mock_method.assert_called_once()
+
+
+if __name__ == '__main__':
+    unittest.main()
