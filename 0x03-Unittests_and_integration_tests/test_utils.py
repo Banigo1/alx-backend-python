@@ -7,6 +7,17 @@ from utils import access_nested_map, get_json, memoize
 from typing import Dict, Tuple, Union
 from unittest.mock import patch, Mock
 
+"""
+This module contains utility functions and classes for testing purposes.
+
+Functions:
+- function_name: Description of what the function does.
+- another_function: Description of another function.
+
+Usage:
+Import this module to access utility functions for unit tests or integration tests.
+"""
+
 
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
