@@ -1,41 +1,38 @@
+#!/usr/bin/env python3
+""" A script to unit test for uclient.GithubOrgClient class.
+"""
+
 import unittest
-from unittest.mock import patch, Mock
-from typing import Dict
+from parameterized import parameterized
+from unittest import mock
+from unittest.mock import PropertyMock, patch
 import requests
+import client
+from client import GithubOrgClient
 
-# Assuming the get_json function is defined in a module named utils
-def get_json(url: str) -> Dict:
-    """Get JSON from remote URL."""
-    response = requests.get(url)
-    return response.json()
 
-class TestGetJson(unittest.TestCase):
+class TestGithubOrgClient(unittest.TestCase):
+    """_class and implement the test_org method.
+    """
+    @parameterized.expand([
+        ('google'),
+        ('abc')
+    ])
+    @patch('client.get_json')
+    def test_org(self, input, mock):
+        """ test that GithubOrgClient.org returns the correct value."""
+        test_class = GithubOrgClient(input)
+        test_class.org()
+        mock.called_with_once(test_class.ORG_URL)
 
-    @patch('requests.get')
-    def test_get_json(self, mock_get):
-        # Define test cases
-        test_cases = [
-            ("http://example.com", {"payload": True}),
-            ("http://holberton.io", {"payload": False}),
-        ]
+    def test_public_repos_url(self):
+        """unit-test GithubOrgClient._public_repos_url"""
+        with patch.object(GithubOrgClient, '_public_repos_url', new_callable=PropertyMock) as mock_property:
+            mock_property.return_value = 'mock_value'
+            inst = GithubOrgClient('org_name')
 
-        for test_url, test_payload in test_cases:
-            # Set up the mock to return a response with the desired JSON
-            mock_response = Mock()
-            mock_response.json.return_value = test_payload
-            mock_get.return_value = mock_response
-            
-            # Call the function under test
-            result = get_json(test_url)
-            
-            # Assert that the mocked get method was called once with the correct URL
-            mock_get.assert_called_once_with(test_url)
-            
-            # Assert that the result matches the expected payload
-            self.assertEqual(result, test_payload)
+            self.assertEqual(inst._public_repos_url, 'mock_value')
 
-            # Reset the mock for the next iteration
-            mock_get.reset_mock()
 
 if __name__ == '__main__':
     unittest.main()
