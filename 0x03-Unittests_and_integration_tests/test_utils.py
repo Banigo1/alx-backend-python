@@ -20,13 +20,14 @@ class TestAccessNestedMap(unittest.TestCase):
         # Test case: Deep nested access
     ])
     def test_access_nested_map(
-        self, map: Dict, path: Tuple[str], ex: Union[Dict, int]) -> None:
+        self, map: Dict, path: Tuple[str],
+        ex: Union[Dict, int]) -> None:
         """Test that access_nested_map returns expected results for given inputs.
 
     Args:
-        map (Dict): The nested dictionary to test.
-        path (Tuple[str]): The path to access within the nested dictionary.
-        ex (Union[Dict, int]): The expected result from accessing the nested map.
+    map (Dict): The nested dictionary to test.
+    path (Tuple[str]): The path to access within the nested dictionary.
+    ex (Union[Dict, int]): The expected result from accessing the nested map.
 
         Asserts:
             The function should return the expected result based on the input map and path.
