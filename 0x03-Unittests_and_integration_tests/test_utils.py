@@ -20,32 +20,41 @@ For each of these inputs, test with assertEqual that the function returns the ex
 The body of the test method should not be longer than 2 lines.
 
 """
+#!/usr/bin/env python3
+""" create class TestAccessNestedMap """
 import unittest
 from parameterized import parameterized
+from utils import access_nested_map, get_json, memoize
+from typing import Dict, Tuple, Union
+from unittest.mock import patch, Mock
 
-import utils
 
 class TestAccessNestedMap(unittest.TestCase):
+    """ try test with utils.access_nested_map """
+    @parameterized.expand([
+        ({'a': 1}, ('a',), 1),
+        ({"a": {"b": 2}}, ("a",), {"b": 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2)
+    ])
+    def test_access_nested_map(self,
+                               map: Dict,
+                               path: Tuple[str],
+                               ex: Union[Dict, int]) -> None:
+        """ test nested map """
+        self.assertEqual(access_nested_map(map, path), ex)
 
     @parameterized.expand([
-        # Basic cases
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
-
-        
+        ({}, ("a",), KeyError),
+        ({"a", 1}, ("a", "b"), KeyError),
     ])
-    def test_access_nested_map(self, nested_map, path, expected_result):
-        if isinstance(expected_result, type):
-            with self.assertRaises(expected_result):
-                utils.access_nested_map(nested_map, path)
-        else:
-            result = utils.access_nested_map(nested_map, path)
-            self.assertEqual(result, expected_result)
-
-if __name__ == '__main__':
-    unittest.main()
-    
+    def test_access_nested_map_exception(self,
+                                         map: Dict,
+                                         path: Tuple[str],
+                                         ex: Exception) -> None:
+        """ test nested loop with exception """
+        with self.assertRaises(ex):
+            access_nested_map(map, path)
+            
 
 
 
