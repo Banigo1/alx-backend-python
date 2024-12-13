@@ -173,27 +173,42 @@ if __name__ == '__main__':
 
 # Task 2
 
-class TestGetJson(unittest.TestCase):
+import unittest
+from unittest.mock import patch, Mock
+from typing import Dict
 
-    @parameterized.expand([
-        ("http://example.com", {"payload": True}),
-        ("http://holberton.io", {"payload": False}),
-    ])
-    def test_get_json(self, test_url, test_payload):
-        """Test get_json returns expected result and calls requests.get correctly."""
-        # Create a mock response object with a json method
-        mock_response = Mock()
-        mock_response.json.return_value = test_payload
-        
-        # Patch 'requests.get' to return our mock response
-        with patch('requests.get', return_value=mock_response) as mock_get:
-            result = get_json(test_url)
-            
-            # Check that requests.get was called once with the correct URL
-            mock_get.assert_called_once_with(test_url)
-            
-            # Check that the result matches the expected payload
-            self.assertEqual(result, test_payload)
+def get_json(url: str) -> Dict:
+    """Get JSON from remote URL."""
+    import requests  # Import inside function to ensure mocking works seamlessly
+    response = requests.get(url)
+    return response.json()
+
+class TestGetJson(unittest.TestCase):
+    def test_get_json(self):
+        test_cases = [
+            {"test_url": "http://example.com", "test_payload": {"payload": True}},
+            {"test_url": "http://holberton.io", "test_payload": {"payload": False}},
+        ]
+
+        for case in test_cases:
+            test_url = case["test_url"]
+            test_payload = case["test_payload"]
+
+            with patch("requests.get") as mock_get:
+                # Set up the mock object
+                mock_response = Mock()
+                mock_response.json.return_value = test_payload
+                mock_get.return_value = mock_response
+
+                # Call the function
+                result = get_json(test_url)
+
+                # Assert that requests.get was called once with the correct URL
+                mock_get.assert_called_once_with(test_url)
+
+                # Assert that the function returned the correct payload
+                self.assertEqual(result, test_payload)
 
 if __name__ == "__main__":
     unittest.main()
+
