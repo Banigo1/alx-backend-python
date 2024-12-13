@@ -20,7 +20,8 @@ class TestAccessNestedMap(unittest.TestCase):
         # Test case: Deep nested access
     ])
     def test_access_nested_map(
-        self, map: Dict, path: Tuple[str], ex: Union[Dict, int]) -> None:
+        self, map: Dict, path: Tuple[str], ex: Union[Dict, int]
+        ) -> None:
         """Test that access_nested_map returns expected results for given inputs.
 
     Args:
