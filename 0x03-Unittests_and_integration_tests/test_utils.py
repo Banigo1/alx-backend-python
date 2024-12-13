@@ -97,7 +97,7 @@ class TestMemoize(unittest.TestCase):
 
         Args:
             mock_a_method (Mock): The mocked version of a_method.
-        
+    
         Asserts:
             The results from two calls to a_property should be equal to 42,
             and a_method should only be called once.
