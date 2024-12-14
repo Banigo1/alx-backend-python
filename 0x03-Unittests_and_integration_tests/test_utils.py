@@ -19,7 +19,8 @@ from functools import wraps
 from parameterized import parameterized
 from utils import access_nested_map, memoize
 from typing import Dict, Tuple, Union
-from unittest.mock import patch, Mock
+from unittest.mock import patch, MagicMock
+import requests
 
 #---------------------Task 0
 
@@ -173,8 +174,13 @@ if __name__ == '__main__':
 
 #---------------------Task 2
 
-class TestGetJson(unittest.TestCase):
+def get_json(url: str) -> Dict:
+    """Get JSON from remote URL."""
+    response = requests.get(url)
+    return response.json()
 
+class TestGetJson(unittest.TestCase):
+    
     @patch('requests.get')
     def test_get_json(self, mock_get):
         # Define test cases
@@ -182,24 +188,25 @@ class TestGetJson(unittest.TestCase):
             ("http://example.com", {"payload": True}),
             ("http://holberton.io", {"payload": False}),
         ]
-
+        
         for test_url, test_payload in test_cases:
-            # Set up the mock to return a response with our test_payload
-            mock_response = Mock()
+            # Set up the mock to return a specific payload
+            mock_response = MagicMock()
             mock_response.json.return_value = test_payload
             mock_get.return_value = mock_response
-
-            # Call the get_json function
+            
+            # Call the function with the test URL
             result = get_json(test_url)
-
-            # Assert that requests.get was called exactly once with test_url
+            
+            # Assert that the mocked get method was called with the correct URL
             mock_get.assert_called_once_with(test_url)
-
-            # Assert that the result from get_json matches the expected payload
+            
+            # Assert that the result matches the expected payload
             self.assertEqual(result, test_payload)
 
-            # Reset mock call history for the next iteration
+            # Reset the mock for the next iteration
             mock_get.reset_mock()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
+    
