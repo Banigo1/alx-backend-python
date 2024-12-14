@@ -9,7 +9,18 @@ from unittest.mock import PropertyMock, patch
 import requests
 import client
 from client import GithubOrgClient
+from unittest.mock import patch, PropertyMock
+from client import GithubOrgClient # Replace with your actual module
+from unittest.mock import patch
+from parameterized import parameterized_class
+from client import GithubOrgClient  # Replace with your actual module
+from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
+from unittest.mock import patch
+from parameterized import parameterized_class
+from client import GithubOrgClient  # Replace with your actual module
+from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
 
+#--------------------------------------------------Task 4
 
 class TestGithubOrgClient(unittest.TestCase):
     """_class and implement the test_org method.
@@ -38,11 +49,7 @@ if __name__ == '__main__':
     unittest.main()
 
 
-# Task 5
-
-    import unittest
-from unittest.mock import patch, PropertyMock
-from client import GithubOrgClient # Replace with your actual module
+#--------------------------------------------------Task 5
 
 class TestGithubOrgClient(unittest.TestCase):
     @patch('your_module.GithubOrgClient.org', new_callable=PropertyMock)
@@ -66,7 +73,7 @@ if __name__ == '__main__':
     unittest.main()
 
 
-# Task 6
+#--------------------------------------------------Task 6
 
 class TestGithubOrgClient(unittest.TestCase):
     @patch('your_module.GithubOrgClient.get_json')
@@ -101,7 +108,8 @@ class TestGithubOrgClient(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-# Task 7
+#--------------------------------------------------Task 7
+
     class TestGithubOrgClient(unittest.TestCase):
         @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
@@ -124,12 +132,7 @@ if __name__ == '__main__':
 
 
 
-    # Task 8
-           import unittest
-from unittest.mock import patch
-from parameterized import parameterized_class
-from client import GithubOrgClient  # Replace with your actual module
-from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
+#--------------------------------------------------Task 8
 
 @parameterized_class([
     {"org_payload": org_payload, "repos_payload": repos_payload, "expected_repos": expected_repos, "apache2_repos": apache2_repos},
@@ -162,13 +165,7 @@ if __name__ == '__main__':
 
 
 
-# Task 9
-
-import unittest
-from unittest.mock import patch
-from parameterized import parameterized_class
-from client import GithubOrgClient  # Replace with your actual module
-from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
+#--------------------------------------------------Task 9
 
 @parameterized_class([
     {"org_payload": org_payload, "repos_payload": repos_payload, "expected_repos": expected_repos, "apache2_repos": apache2_repos},
