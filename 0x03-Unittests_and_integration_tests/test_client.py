@@ -37,6 +37,9 @@ class TestGithubOrgClient(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
+
+# Task 5
+
     import unittest
 from unittest.mock import patch, PropertyMock
 from client import GithubOrgClient # Replace with your actual module
@@ -59,5 +62,41 @@ class TestGithubOrgClient(unittest.TestCase):
         expected_url = "https://api.github.com/orgs/test_org/repos"
         self.assertEqual(result, expected_url)
 
+if __name__ == '__main__':
+    unittest.main()
+
+
+# Task 6
+
+class TestGithubOrgClient(unittest.TestCase):
+    @patch('your_module.GithubOrgClient.get_json')
+    def test_public_repos(self, mock_get_json):
+        # Mock the _public_repos_url method using a context manager
+        with patch('your_module.GithubOrgClient._public_repos_url', return_value="https://api.github.com/orgs/test_org/repos"):
+            # Define a known payload to be returned by get_json
+            mock_get_json.return_value = [
+                {"name": "repo1", "url": "https://github.com/test_org/repo1"},
+                {"name": "repo2", "url": "https://github.com/test_org/repo2"}
+            ]
+
+            # Create an instance of GithubOrgClient
+            client = GithubOrgClient("test_org")
+
+            # Call the public_repos method
+            repos = client.public_repos()
+
+            # Expected list of repositories
+            expected_repos = [
+                {"name": "repo1", "url": "https://github.com/test_org/repo1"},
+                {"name": "repo2", "url": "https://github.com/test_org/repo2"}
+            ]
+
+            # Assert that the returned list matches the expected list
+            self.assertEqual(repos, expected_repos)
+
+            # Assert that get_json was called once
+            mock_get_json.assert_called_once()
+
+# Run the tests
 if __name__ == '__main__':
     unittest.main()
