@@ -21,7 +21,7 @@ from utils import access_nested_map, memoize
 from typing import Dict, Tuple, Union
 from unittest.mock import patch, Mock
 
-#Task 0
+#---------------------Task 0
 
 class TestAccessNestedMap(unittest.TestCase):
 
@@ -47,7 +47,7 @@ class TestAccessNestedMap(unittest.TestCase):
 if __name__ == "__main__":
     unittest.main()
 
-#Task 1
+#---------------------Task 1
 
 class TestAccessNestedMap(unittest.TestCase):
     """Test cases for the access_nested_map function."""
@@ -171,11 +171,7 @@ class TestMemoize(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-# Task 2
-
-import unittest
-from unittest.mock import patch, Mock
-from typing import Dict
+#---------------------Task 2
 
 class TestGetJson(unittest.TestCase):
 
