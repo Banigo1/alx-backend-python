@@ -128,7 +128,7 @@ if __name__ == '__main__':
            import unittest
 from unittest.mock import patch
 from parameterized import parameterized_class
-from your_module import GithubOrgClient  # Replace with your actual module
+from client import GithubOrgClient  # Replace with your actual module
 from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
 
 @parameterized_class([
