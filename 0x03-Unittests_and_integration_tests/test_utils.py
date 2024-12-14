@@ -177,38 +177,34 @@ import unittest
 from unittest.mock import patch, Mock
 from typing import Dict
 
-def get_json(url: str) -> Dict:
-    """Get JSON from remote URL."""
-    import requests  # Import inside function to ensure mocking works seamlessly
-    response = requests.get(url)
-    return response.json()
-
 class TestGetJson(unittest.TestCase):
-    def test_get_json(self):
+
+    @patch('requests.get')
+    def test_get_json(self, mock_get):
+        # Define test cases
         test_cases = [
-            {"test_url": "http://example.com", "test_payload": {"payload": True}},
-            {"test_url": "http://holberton.io", "test_payload": {"payload": False}},
+            ("http://example.com", {"payload": True}),
+            ("http://holberton.io", {"payload": False}),
         ]
 
-        for case in test_cases:
-            test_url = case["test_url"]
-            test_payload = case["test_payload"]
+        for test_url, test_payload in test_cases:
+            # Set up the mock to return a response with our test_payload
+            mock_response = Mock()
+            mock_response.json.return_value = test_payload
+            mock_get.return_value = mock_response
 
-            with patch("requests.get") as mock_get:
-                # Set up the mock object
-                mock_response = Mock()
-                mock_response.json.return_value = test_payload
-                mock_get.return_value = mock_response
+            # Call the get_json function
+            result = get_json(test_url)
 
-                # Call the function
-                result = get_json(test_url)
+            # Assert that requests.get was called exactly once with test_url
+            mock_get.assert_called_once_with(test_url)
 
-                # Assert that requests.get was called once with the correct URL
-                mock_get.assert_called_once_with(test_url)
+            # Assert that the result from get_json matches the expected payload
+            self.assertEqual(result, test_payload)
 
-                # Assert that the function returned the correct payload
-                self.assertEqual(result, test_payload)
+            # Reset mock call history for the next iteration
+            mock_get.reset_mock()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
-
+    
