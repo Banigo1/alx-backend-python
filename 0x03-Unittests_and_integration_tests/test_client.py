@@ -76,9 +76,25 @@ if __name__ == '__main__':
 #--------------------------------------------------Task 6
 
 class TestGithubOrgClient(unittest.TestCase):
+    """
+    Test suite for the GithubOrgClient class.
+
+    This suite tests the functionality of the `public_repos` method.
+    """
 
     @patch('client.get_json')
     def test_public_repos(self, mock_get_json):
+        """
+        Test the `public_repos` method.
+
+        This test verifies that:
+        1. The method returns the correct list of repository names based on the mocked payload.
+        2. The `get_json` function is called once with the correct URL.
+        3. The `_public_repos_url` property is accessed once.
+
+        Args:
+            mock_get_json (Mock): Mocked `get_json` function.
+        """
         # Define the payload and expected result
         mock_payload = [
             {'name': 'repo1'},
@@ -103,7 +119,6 @@ class TestGithubOrgClient(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
 
 #--------------------------------------------------Task 7
 
