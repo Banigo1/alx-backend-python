@@ -120,3 +120,42 @@ if __name__ == '__main__':
 # Run the tests
         if __name__ == '__main__':
            unittest.main()
+
+
+
+
+    # Task 8
+           import unittest
+from unittest.mock import patch
+from parameterized import parameterized_class
+from your_module import GithubOrgClient  # Replace with your actual module
+from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
+
+@parameterized_class([
+    {"org_payload": org_payload, "repos_payload": repos_payload, "expected_repos": expected_repos, "apache2_repos": apache2_repos},
+])
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.get_patcher = patch('requests.get')
+        cls.mock_get = cls.get_patcher.start()
+
+        # Define side effects for different URLs
+        cls.mock_get.side_effect = lambda url: {
+            'https://api.github.com/orgs/test_org': cls.org_payload,
+            'https://api.github.com/orgs/test_org/repos': cls.repos_payload,
+        }.get(url, None)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        client = GithubOrgClient("test_org")
+        repos = client.public_repos()
+        
+        # Assert that the returned repos match expected repos
+        self.assertEqual(repos, self.expected_repos)
+
+if __name__ == '__main__':
+    unittest.main()
