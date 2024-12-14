@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
 # Task 7
     class TestGithubOrgClient(unittest.TestCase):
-    @parameterized.expand([
+        @parameterized.expand([
         ({"license": {"key": "my_license"}}, "my_license", True),
         ({"license": {"key": "other_license"}}, "my_license", False),
     ])
