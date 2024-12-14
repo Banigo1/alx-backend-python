@@ -36,3 +36,28 @@ class TestGithubOrgClient(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+    import unittest
+from unittest.mock import patch, PropertyMock
+from client import GithubOrgClient # Replace with your actual module
+
+class TestGithubOrgClient(unittest.TestCase):
+    @patch('your_module.GithubOrgClient.org', new_callable=PropertyMock)
+    def test_public_repos_url(self, mock_org):
+        # Define a known payload
+        mock_org.return_value = {
+            "repos_url": "https://api.github.com/orgs/test_org/repos"
+        }
+
+        # Create an instance of GithubOrgClient
+        client = GithubOrgClient("test_org")
+
+        # Call the method under test
+        result = client._public_repos_url()
+
+        # Assert that the result is as expected
+        expected_url = "https://api.github.com/orgs/test_org/repos"
+        self.assertEqual(result, expected_url)
+
+if __name__ == '__main__':
+    unittest.main()
