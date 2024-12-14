@@ -209,4 +209,3 @@ class TestGetJson(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-    
