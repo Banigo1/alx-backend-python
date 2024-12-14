@@ -118,5 +118,5 @@ if __name__ == '__main__':
         self.assertEqual(result, expected)
 
 # Run the tests
-if __name__ == '__main__':
-    unittest.main()
+        if __name__ == '__main__':
+           unittest.main()
