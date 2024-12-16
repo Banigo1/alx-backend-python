@@ -57,7 +57,8 @@ GithubOrgClient, '_public_repos_url', new_callable=PropertyMock
 
             # Assertions
             self.assertEqual(repos, expected_repos)
-        mock_get_json.assert_called_once_with('https://api.github.com/orgs/test_org/repos')
+        mock_get_json.assert_called_once_with(
+            'https://api.github.com/orgs/test_org/repos')
             mock_url.assert_called_once()
 
     @parameterized.expand([
