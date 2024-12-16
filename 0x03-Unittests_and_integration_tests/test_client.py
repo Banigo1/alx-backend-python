@@ -77,10 +77,13 @@ if __name__ == '__main__':
 #--------------------------------------------------Task 6
 
 class TestGithubOrgClient(unittest.TestCase):
+
+
     """
     Test suite for the GithubOrgClient class.
-
-    This suite tests the functionality of the `public_repos` method.
+    This suite tests the functionality
+    of the `public_repos` method.
+    
     """
 
     @patch('client.get_json')
@@ -181,7 +184,11 @@ class TestGithubOrgClient(unittest.TestCase):
     """Test cases for GithubOrgClient class."""
 
 @patch('github_org_client.GithubOrgClient.public_repos')
+
+
 def test_public_repos(self, mock_public_repos):
+
+
 """Test the public_repos method returns expected results."""
 # Sample fixture data
 expected_repos = [
