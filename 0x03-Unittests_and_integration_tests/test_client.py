@@ -81,7 +81,6 @@ class TestGithubOrgClient(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-
 # --------------------------------------------------Task 6
 
 
@@ -93,7 +92,6 @@ class TestGithubOrgClient(unittest.TestCase):
     of the `public_repos` method.
 
     """
-
     @patch('client.get_json')
 
 
@@ -162,6 +160,7 @@ if __name__ == '__main__':
            unittest.main()
 
 # --------------------------------------------------Task 8
+
 
 @parameterized_class([
     {"org_payload": org_payload,
