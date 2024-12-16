@@ -21,7 +21,7 @@ from parameterized import parameterized_class
 from client import GithubOrgClient
 from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
-#--------------------------------------------------Task 4
+#-------------------------------------------------Task 4
 
 class TestGithubOrgClient(unittest.TestCase):
     """_class and implement the test_org method.
@@ -34,8 +34,8 @@ class TestGithubOrgClient(unittest.TestCase):
 
 
     def test_org(self, input, mock):
-    """ test that GithubOrgClient.org returns the correct value."""
-        test_class = GithubOrgClient(input)
+        """ test that GithubOrgClient.org returns the correct value."""
+   test_class = GithubOrgClient(input)
         test_class.org()
         mock.called_with_once(test_class.ORG_URL)
 
@@ -49,8 +49,7 @@ class TestGithubOrgClient(unittest.TestCase):
             mock_property.return_value = 'mock_value'
             inst = GithubOrgClient('org_name')
 
-            self.assertEqual(inst._public_repos_url,
-            'mock_value')
+    self.assertEqual(inst._public_repos_url, 'mock_value')
 
 
 if __name__ == '__main__':
@@ -124,9 +123,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
         # Mock the _public_repos_url property
         with patch.object(GithubOrgClient,
-    '_public_repos_url',
-        new_callable=PropertyMock
-        ) as mock_url:
+    '_public_repos_url', new_callable=PropertyMock) as mock_url:
             mock_url.return_value =
             'https://api.github.com/orgs/test_org/repos'
 
