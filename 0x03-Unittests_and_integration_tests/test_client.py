@@ -181,7 +181,7 @@ class TestGithubOrgClient(unittest.TestCase):
     """Test cases for GithubOrgClient class."""
 
     @patch('github_org_client.GithubOrgClient.public_repos')
-    def test_public_repos(self, mock_public_repos):
+def test_public_repos(self, mock_public_repos):
         """Test the public_repos method returns expected results."""
         # Sample fixture data
         expected_repos = [
@@ -199,7 +199,7 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(repos, expected_repos)
 
     @patch('github_org_client.GithubOrgClient.public_repos')
-    def test_public_repos_with_license(self, mock_public_repos):
+def test_public_repos_with_license(self, mock_public_repos):
         """Test public_repos with license filter."""
         # Sample fixture data for license filter
         expected_repos_with_license = [
