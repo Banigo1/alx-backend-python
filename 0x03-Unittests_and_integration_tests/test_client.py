@@ -189,7 +189,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     def test_public_repos(self):
         client = GithubOrgClient("test_org")
         repos = client.public_repos()
-        
+
     # Assert that the returned repos match expected repos
         self.assertEqual(repos, self.expected_repos)
 
