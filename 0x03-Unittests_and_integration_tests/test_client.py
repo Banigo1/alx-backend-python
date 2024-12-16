@@ -44,9 +44,7 @@ class TestGithubOrgClient(unittest.TestCase):
 
         # Mock the _public_repos_url property
         with patch.object(
-    GithubOrgClient,
-    '_public_repos_url',
-    new_callable=PropertyMock
+GithubOrgClient, '_public_repos_url', new_callable=PropertyMock
 ) as mock_url:
 
         as mock_url:
