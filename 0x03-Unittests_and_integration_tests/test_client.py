@@ -53,7 +53,7 @@ if __name__ == '__main__':
     unittest.main()
 
 
-#--------------------------------------------------Task 5
+# --------------------------------------------------Task 5
 
 class TestGithubOrgClient(unittest.TestCase):
     @patch('your_module.GithubOrgClient.org', new_callable=PropertyMock)
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     unittest.main()
 
 
-#--------------------------------------------------Task 6
+# --------------------------------------------------Task 6
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -139,7 +139,7 @@ class TestGithubOrgClient(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-#--------------------------------------------------Task 7
+# --------------------------------------------------Task 7
 
     class TestGithubOrgClient(unittest.TestCase):
         @parameterized.expand([
@@ -160,7 +160,7 @@ if __name__ == '__main__':
         if __name__ == '__main__':
            unittest.main()
 
-#--------------------------------------------------Task 8
+# --------------------------------------------------Task 8
 
 @parameterized_class([
     {"org_payload": org_payload,
@@ -196,7 +196,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 
-#--------------------------------------------------Task 9
+# --------------------------------------------------Task 9
 
 class TestGithubOrgClient(unittest.TestCase):
     """Test cases for GithubOrgClient class."""
