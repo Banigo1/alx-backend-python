@@ -11,15 +11,15 @@ import requests
 import client
 from github_org_client import GithubOrgClient
 from client import GithubOrgClient
-from client import GithubOrgClient # Replace with your actual module
+from client import GithubOrgClient
 from unittest.mock import patch
 from parameterized import parameterized_class
-from client import GithubOrgClient  # Replace with your actual module
-from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
+from client import GithubOrgClient
+from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 from unittest.mock import patch
 from parameterized import parameterized_class
-from client import GithubOrgClient  # Replace with your actual module
-from fixtures import org_payload, repos_payload, expected_repos, apache2_repos  # Adjust imports as necessary
+from client import GithubOrgClient
+from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
 #--------------------------------------------------Task 4
 
@@ -31,19 +31,26 @@ class TestGithubOrgClient(unittest.TestCase):
         ('abc')
     ])
     @patch('client.get_json')
+
+
     def test_org(self, input, mock):
-        """ test that GithubOrgClient.org returns the correct value."""
+    """ test that GithubOrgClient.org returns the correct value."""
         test_class = GithubOrgClient(input)
         test_class.org()
         mock.called_with_once(test_class.ORG_URL)
 
+
     def test_public_repos_url(self):
         """unit-test GithubOrgClient._public_repos_url"""
-        with patch.object(GithubOrgClient, '_public_repos_url', new_callable=PropertyMock) as mock_property:
+        with patch.object(GithubOrgClient,
+        '_public_repos_url',
+        new_callable=PropertyMock
+        ) as mock_property:
             mock_property.return_value = 'mock_value'
             inst = GithubOrgClient('org_name')
 
-            self.assertEqual(inst._public_repos_url, 'mock_value')
+            self.assertEqual(inst._public_repos_url,
+            'mock_value')
 
 
 if __name__ == '__main__':
@@ -54,10 +61,13 @@ if __name__ == '__main__':
 
 class TestGithubOrgClient(unittest.TestCase):
     @patch('your_module.GithubOrgClient.org', new_callable=PropertyMock)
+
+
     def test_public_repos_url(self, mock_org):
         # Define a known payload
         mock_org.return_value = {
-            "repos_url": "https://api.github.com/orgs/test_org/repos"
+            "repos_url":
+            "https://api.github.com/orgs/test_org/repos"
         }
 
         # Create an instance of GithubOrgClient
@@ -67,7 +77,8 @@ class TestGithubOrgClient(unittest.TestCase):
         result = client._public_repos_url()
 
         # Assert that the result is as expected
-        expected_url = "https://api.github.com/orgs/test_org/repos"
+        expected_url =
+        "https://api.github.com/orgs/test_org/repos"
         self.assertEqual(result, expected_url)
 
 if __name__ == '__main__':
@@ -76,23 +87,26 @@ if __name__ == '__main__':
 
 #--------------------------------------------------Task 6
 
-class TestGithubOrgClient(unittest.TestCase):
 
+class TestGithubOrgClient(unittest.TestCase):
 
     """
     Test suite for the GithubOrgClient class.
     This suite tests the functionality
     of the `public_repos` method.
-    
+
     """
 
     @patch('client.get_json')
+
+
     def test_public_repos(self, mock_get_json):
         """
         Test the `public_repos` method.
 
         This test verifies that:
-        1. The method returns the correct list of repository names based on the mocked payload.
+        1. The method returns the correct list of
+        repository names based on the mocked payload.
         2. The `get_json` function is called once with the correct URL.
         3. The `_public_repos_url` property is accessed once.
 
@@ -109,17 +123,24 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.return_value = mock_payload
 
         # Mock the _public_repos_url property
-        with patch.object(GithubOrgClient, '_public_repos_url', new_callable=PropertyMock) as mock_url:
-            mock_url.return_value = 'https://api.github.com/orgs/test_org/repos'
+        with patch.object(GithubOrgClient,
+    '_public_repos_url',
+        new_callable=PropertyMock
+        ) as mock_url:
+            mock_url.return_value =
+            'https://api.github.com/orgs/test_org/repos'
 
             # Initialize client and call the method
             client = GithubOrgClient('test_org')
             repos = client.public_repos()
 
             # Assertions
-            self.assertEqual(repos, expected_repos)  # Test the result matches the expected list
-            mock_get_json.assert_called_once_with('https://api.github.com/orgs/test_org/repos')
-            mock_url.assert_called_once()  # Ensure the mocked property was accessed
+            self.assertEqual(repos, expected_repos)
+            # Test the result matches the expected list
+            mock_get_json.assert_called_once_with
+            ('https://api.github.com/orgs/test_org/repos')
+            mock_url.assert_called_once()
+            # Ensure the mocked property was accessed
 
 if __name__ == '__main__':
     unittest.main()
@@ -148,8 +169,13 @@ if __name__ == '__main__':
 #--------------------------------------------------Task 8
 
 @parameterized_class([
-    {"org_payload": org_payload, "repos_payload": repos_payload, "expected_repos": expected_repos, "apache2_repos": apache2_repos},
+    {"org_payload": org_payload,
+    "repos_payload": repos_payload,
+    "expected_repos": expected_repos,
+    "apache2_repos": apache2_repos},
 ])
+
+
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -170,13 +196,11 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("test_org")
         repos = client.public_repos()
         
-        # Assert that the returned repos match expected repos
+    # Assert that the returned repos match expected repos
         self.assertEqual(repos, self.expected_repos)
 
 if __name__ == '__main__':
     unittest.main()
-
-
 
 #--------------------------------------------------Task 9
 
