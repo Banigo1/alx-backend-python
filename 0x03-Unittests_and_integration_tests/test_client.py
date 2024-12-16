@@ -21,7 +21,8 @@ from parameterized import parameterized_class
 from client import GithubOrgClient
 from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
-#-------------------------------------------------Task 4
+# -------------------------------------------------Task 4
+
 
 class TestGithubOrgClient(unittest.TestCase):
     """_class and implement the test_org method.
@@ -31,13 +32,11 @@ class TestGithubOrgClient(unittest.TestCase):
         ('abc')
     ])
     @patch('client.get_json')
-
-
     def test_org(self, input, mock):
         """ test that GithubOrgClient.org returns the correct value."""
    test_class = GithubOrgClient(input)
-        test_class.org()
-        mock.called_with_once(test_class.ORG_URL)
+    test_class.org()
+    mock.called_with_once(test_class.ORG_URL)
 
 
     def test_public_repos_url(self):
