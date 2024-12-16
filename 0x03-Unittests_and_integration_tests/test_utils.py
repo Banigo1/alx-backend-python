@@ -189,7 +189,7 @@ def test_get_json(self, mock_get):
             ("http://holberton.io", {"payload": False}),
         ]
         
-        for test_url, test_payload in test_cases:
+    for test_url, test_payload in test_cases:
             # Set up the mock to return a specific payload
             mock_response = MagicMock()
             mock_response.json.return_value = test_payload
