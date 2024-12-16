@@ -182,7 +182,7 @@ def get_json(url: str) -> Dict:
 class TestGetJson(unittest.TestCase):
     
     @patch('requests.get')
-        def test_get_json(self, mock_get):
+def test_get_json(self, mock_get):
         # Define test cases
         test_cases = [
             ("http://example.com", {"payload": True}),
