@@ -23,6 +23,7 @@ from fixtures import org_payload, repos_payload, expected_repos, apache2_repos
 
 #-------------------------------------------------Task 4
 
+
 class TestGithubOrgClient(unittest.TestCase):
     """_class and implement the test_org method.
     """
@@ -31,8 +32,6 @@ class TestGithubOrgClient(unittest.TestCase):
         ('abc')
     ])
     @patch('client.get_json')
-
-
     def test_org(self, input, mock):
         """ test that GithubOrgClient.org returns the correct value."""
    test_class = GithubOrgClient(input)
