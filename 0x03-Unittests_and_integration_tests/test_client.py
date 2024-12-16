@@ -184,8 +184,8 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         # Define side effects for different URLs
         cls.mock_get.side_effect = lambda url: {
-            'https://api.github.com/orgs/test_org': cls.org_payload,
-            'https://api.github.com/orgs/test_org/repos': cls.repos_payload,
+        'https://api.github.com/orgs/test_org': cls.org_payload,
+        'https://api.github.com/orgs/test_org/repos': cls.repos_payload,
         }.get(url, None)
 
     @classmethod
