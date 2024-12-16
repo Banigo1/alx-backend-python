@@ -192,17 +192,17 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         }.get(url, None)
 
     @classmethod
-    def tearDownClass(cls):
+def tearDownClass(cls):
         cls.get_patcher.stop()
 
-    def test_public_repos(self):
+def test_public_repos(self):
         client = GithubOrgClient("test_org")
         repos = client.public_repos()
         
         # Assert that the returned repos match expected repos
         self.assertEqual(repos, self.expected_repos)
 
-    def test_public_repos_with_license(self):
+def test_public_repos_with_license(self):
         client = GithubOrgClient("test_org")
         repos_with_license = client.public_repos(license="apache-2.0")
         
