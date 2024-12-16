@@ -28,7 +28,8 @@ class TestGithubOrgClient(unittest.TestCase):
         Test the `public_repos` method.
 
         This test verifies that:
-        1. The method returns the correct list of repository names based on the mocked payload.
+        1. The method returns the correct list of
+        repository names based on the mocked payload.
         2. The `get_json` function is called once with the correct URL.
         3. The `_public_repos_url` property is accessed once.
         """
@@ -42,7 +43,9 @@ class TestGithubOrgClient(unittest.TestCase):
         mock_get_json.return_value = mock_payload
 
         # Mock the _public_repos_url property
-        with patch.object(GithubOrgClient, '_public_repos_url', new_callable=PropertyMock) as mock_url:
+        with patch.object(GithubOrgClient,
+        '_public_repos_url', 
+        new_callable=PropertyMock) as mock_url:
             mock_url.return_value = 'https://api.github.com/orgs/test_org/repos'
 
             # Initialize client and call the method
@@ -93,7 +96,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         """Test public repos integration."""
         client = GithubOrgClient("test_org")
         repos = client.public_repos()
-        
+
         # Assert that the returned repos match expected repos
         self.assertEqual(repos, self.expected_repos)
 
@@ -104,7 +107,7 @@ class TestGithubOrgClientPublicRepos(unittest.TestCase):
     @patch('github_org_client.GithubOrgClient.public_repos')
     def test_public_repos(self, mock_public_repos):
         """Test the public_repos method returns expected results."""
-        
+
         # Sample fixture data
         expected_repos = [
             {"name": "Repo1", "license": {"key": "mit"}},
@@ -113,17 +116,17 @@ class TestGithubOrgClientPublicRepos(unittest.TestCase):
 
         # Setting up the mock to return the expected repos
         mock_public_repos.return_value = expected_repos
-        
+
         client = GithubOrgClient("org_name")
         repos = client.public_repos()
-        
+
         # Assert that the returned repos match the expected repos
         self.assertEqual(repos, expected_repos)
 
     @patch('github_org_client.GithubOrgClient.public_repos')
     def test_public_repos_with_license(self, mock_public_repos):
         """Test public_repos with license filter."""
-        
+
         # Sample fixture data for license filter
         expected_repos_with_license = [
             {"name": "Repo2", "license": {"key": "apache-2.0"}},
@@ -131,10 +134,10 @@ class TestGithubOrgClientPublicRepos(unittest.TestCase):
 
         # Setting up the mock to return repos with a specific license
         mock_public_repos.return_value = expected_repos_with_license
-        
+
         client = GithubOrgClient("org_name")
         repos = client.public_repos(license="apache-2.0")
-        
+
         # Assert that the returned repos match the expected repos with license
         self.assertEqual(repos, expected_repos_with_license)
 
