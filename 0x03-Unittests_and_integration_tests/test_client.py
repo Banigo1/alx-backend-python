@@ -48,8 +48,6 @@ with patch.object(
 ) as mock_url:
     # Your code block goes here
 
-
-
             as mock_url: mock_url.return_value =
             'https://api.github.com/orgs/test_org/repos'
 
