@@ -124,3 +124,26 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # Enable session-based authentication
+        'rest_framework.authentication.BasicAuthentication',    # Optionally, basic authentication
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Require authentication by default
+    ],
+}
+
+"""
+What These Settings Do
+
+DEFAULT_AUTHENTICATION_CLASSES:
+
+SessionAuthentication: Uses Django’s session framework for authentication. This is useful when working with browser-based clients.
+BasicAuthentication: Uses username and password for API clients, like Postman. You can remove this if you only want to use session-based authentication.
+DEFAULT_PERMISSION_CLASSES:
+
+IsAuthenticated: Restricts access to authenticated users by default. Users need to log in before accessing the API.
+
+"""
