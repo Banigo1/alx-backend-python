@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-
-from django.db import models
+from django.conf import settings 
 import uuid  # Import UUID for unique identifier generation
 
 class User(models.Model):
@@ -49,6 +47,7 @@ class Conversation(models.Model):
         participant_usernames = ', '.join([user.username for user in self.participants.all()])
         return f"Conversation ({participant_usernames})"
     
+    
 # Message Model
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_sent')
@@ -61,3 +60,11 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message by {self.sender.username} in Conversation {self.conversation.id}"
+
+
+# chats/models.py
+
+class CustomUser(models.Model):
+    # Your custom user fields here
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
