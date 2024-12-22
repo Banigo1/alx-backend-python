@@ -16,12 +16,18 @@ Including another URLconf
 """
 # messaging_app/urls.py
 
-from django.contrib import admin
 from django.urls import path, include
-from chats.views import home
+from rest_framework import routers
+from . import views
 
+# Create a Default Router for the main resources
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet, basename='user')
+router.register(r'conversations', views.ConversationViewSet, basename='conversation')
+router.register(r'messages', views.MessageViewSet, basename='message')
+
+# URL Patterns
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', home, name='home'),  # Add this line for the root URL
-    path('api/', include('chats.urls')),  # Include API URLs from chats app
+    path('', include(router.urls)),  # Include the main router URLs
+    path('api-auth/', include('rest_framework.urls')),  # Add this line to include api-auth endpoints
 ]
