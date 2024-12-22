@@ -1,10 +1,8 @@
 # chats/urls.py
-
 from django.urls import path, include
-from .views import ConversationListView, MessageListView
 from rest_framework.routers import DefaultRouter
+from rest_framework_nested.routers import NestedDefaultRouter  # Import the nested router
 from . import views
-
 
 # Create a router and register your viewsets
 router = DefaultRouter()
@@ -12,10 +10,16 @@ router.register(r'users', views.UserViewSet, basename='user')
 router.register(r'conversations', views.ConversationViewSet, basename='conversation')
 router.register(r'messages', views.MessageViewSet, basename='message')
 
+# Create a Nested Default Router for nested routes (e.g., messages within a conversation)
+conversation_router = NestedDefaultRouter(router, r'conversations', lookup='conversation')
+conversation_router.register(r'messages', views.MessageViewSet, basename='conversation-messages')
+
 # URL Patterns
 urlpatterns = [
-    path('', include(router.urls)),  # Include the router-generated URLs
+    path('', include(router.urls)),  # Include the main router URLs
+    path('', include(conversation_router.urls)),  # Include the nested router URLs
 ]
+
 
 """ Explanation of Key Components
 include:
