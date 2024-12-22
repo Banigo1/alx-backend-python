@@ -50,13 +50,12 @@ class Conversation(models.Model):
     
 # Message Model
 class Message(models.Model):
+    message_id = models.AutoField(primary_key=True)  # Auto-incremented unique ID for the message
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_sent')
-    conversation = models.ForeignKey(
-        Conversation, on_delete=models.CASCADE, related_name='messages', db_column='conversation_id'
-    )
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
+    message_body = models.TextField()  # The content of the message
+    sent_at = models.DateTimeField(auto_now_add=True)  # Timestamp of when the message was sent
+    updated_at = models.DateTimeField(auto_now=True)  # Timestamp of when the message was last edited (if any)
 
     def __str__(self):
         return f"Message by {self.sender.username} in Conversation {self.conversation.id}"
