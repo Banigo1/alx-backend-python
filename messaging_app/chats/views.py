@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import filters
 from .models import User, Conversation, Message
 from .serializers import UserSerializer, ConversationSerializer, MessageSerializer
+from rest_framework import generics
 
 # User ViewSet
 class UserViewSet(viewsets.ModelViewSet):
@@ -58,3 +59,9 @@ MessageViewSet:
 
 This manages messages. It supports both search and ordering functionality, allowing filtering messages by message_body and ordering by sent_at.
 """
+
+class UserMessagesView(generics.ListAPIView):
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        return Message.objects.filter(user=self.request.user)

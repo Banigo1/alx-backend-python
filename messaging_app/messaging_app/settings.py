@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'chats',
+    'rest_framework_simplejwt.token_blacklist',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,14 +129,30 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',  # Enable session-based authentication
-        'rest_framework.authentication.BasicAuthentication',    # Optionally, basic authentication
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # Require authentication by default
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication', # Aauthentication classes  set up the to use JWT
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', # Require authentication by default
+    ),
 }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Duration for access tokens
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Duration for refresh tokens
+    'ROTATE_REFRESH_TOKENS': True,                    # Whether to rotate refresh tokens
+    'BLACKLIST_AFTER_ROTATION': True,                 # Blacklist used refresh tokens
+    'UPDATE_LAST_LOGIN': False,                       # Update last login time on token refresh
+    'ALGORITHM': 'HS256',                             # Signing algorithm
+    'SIGNING_KEY': SECRET_KEY,                        # Use your project's secret key
+    'VERIFIYING_KEY': '',                             # Optional verifying key
+    'AUDIENCE': None,                                 # Optional audience claim
+    'ISSUER': None,                                   # Optional issuer claim
+    'JSON_ENCODER': None,                             # Custom JSON encoder if needed
+    'JWK_URL': None,                                  # Optional JWK URL
+    'LEEWAY': 0,                                      # Optional leeway for expiration time
+}
+
 
 """
 What These Settings Do
