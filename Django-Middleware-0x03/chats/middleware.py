@@ -205,9 +205,7 @@ class RolePermissionMiddleware:
       """
       if request.user.is_authenticated:
             # Check the user's role (assuming roles are stored in a field like `role`)
-            user_role = getattr(request.user, 'role', None)  # Adjust field name if different
-            if user_role not in ['admin', 'moderator']:
-                return HttpResponseForbidden("Access denied: You do not have the required permissions.")
+           request.user.groups.filter(name='admin').exists()  # Check if the user belongs to the 'admin' group.
       else:
             return HttpResponseForbidden("Access denied: You are not authenticated.")
 
