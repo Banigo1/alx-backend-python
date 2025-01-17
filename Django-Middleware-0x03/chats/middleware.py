@@ -170,7 +170,7 @@ class OffensiveLanguageMiddleware:
 
 # 4. Enforce chat user Role Permissions
 
-from django.http import JsonResponse
+from django.http import HttpResponseForbidden
 
 class RolePermissionMiddleware:
     """
@@ -182,18 +182,18 @@ class RolePermissionMiddleware:
     Attributes:
         get_response (callable): The next middleware or view to handle the request.
     """
-
     def __init__(self, get_response):
-        """
+      """
         Initializes the middleware with the given response handler.
 
         Args:
             get_response (callable): The next middleware or view to handle the request.
-        """
-        self.get_response = get_response
+       """
+      self.get_response = get_response
 
     def __call__(self, request):
-        """
+        # Check if the user is authenticated
+      """
         Processes incoming requests and checks the user's role.
 
         Args:
@@ -202,14 +202,15 @@ class RolePermissionMiddleware:
         Returns:
             HttpResponse: The HTTP response to the request. If the user is not authorized, 
             a 403 Forbidden error is returned.
-        """
-        user_role = request.META.get('HTTP_USER_ROLE')  # Assuming role is sent in request headers
+      """
+      if request.user.is_authenticated:
+            # Check the user's role (assuming roles are stored in a field like `role`)
+            user_role = getattr(request.user, 'role', None)  # Adjust field name if different
+            if user_role not in ['admin', 'moderator']:
+                return HttpResponseForbidden("Access denied: You do not have the required permissions.")
+      else:
+            return HttpResponseForbidden("Access denied: You are not authenticated.")
 
-        if user_role not in ('admin', 'moderator'):
-            return JsonResponse(
-                {"error": "Forbidden: You do not have permission to access this resource."}, 
-                status=403
-            )
-
-        response = self.get_response(request)
-        return response
+        # Proceed with the request if user has proper role
+      response = self.get_response(request)
+      return response
