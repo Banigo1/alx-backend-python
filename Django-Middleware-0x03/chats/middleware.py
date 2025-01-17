@@ -53,7 +53,7 @@ class RequestLoggingMiddleware:
         logging.info(f"{datetime.now()} - User: {user} - Path: {request.path}")
         
         return self.get_response(request)
-    #___________________________________________________________________________________
+#_________________________________________________________________________________________________
 
 # 3. Detect and Block offensive Language
 
@@ -141,3 +141,51 @@ class OffensiveLanguageMiddleware:
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
+
+#_____________________________________________________________________________________________
+
+# 4. Enforce chat user Role Permissions
+
+from django.http import JsonResponse
+
+class RolePermissionMiddleware:
+    """
+    Middleware to restrict access based on user roles. Only users with roles 'admin' or 'moderator'
+    are allowed to proceed.
+
+    If the user's role is not 'admin' or 'moderator', a 403 Forbidden error is returned.
+
+    Attributes:
+        get_response (callable): The next middleware or view to handle the request.
+    """
+
+    def __init__(self, get_response):
+        """
+        Initializes the middleware with the given response handler.
+
+        Args:
+            get_response (callable): The next middleware or view to handle the request.
+        """
+        self.get_response = get_response
+
+    def __call__(self, request):
+        """
+        Processes incoming requests and checks the user's role.
+
+        Args:
+            request (HttpRequest): The incoming HTTP request.
+
+        Returns:
+            HttpResponse: The HTTP response to the request. If the user is not authorized, 
+            a 403 Forbidden error is returned.
+        """
+        user_role = request.META.get('HTTP_USER_ROLE')  # Assuming role is sent in request headers
+
+        if user_role not in ('admin', 'moderator'):
+            return JsonResponse(
+                {"error": "Forbidden: You do not have permission to access this resource."}, 
+                status=403
+            )
+
+        response = self.get_response(request)
+        return response
