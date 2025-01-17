@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.core.cache import cache
 import time
 
+
 """ Each middleware implements specific functionality:
 
 ** RequestLoggingMiddleware
@@ -53,6 +54,30 @@ class RequestLoggingMiddleware:
         return response
 
 #_________________________________________________________________________________________________
+
+# 2. Restrict Chat Access by time
+ 
+from datetime import datetime
+from django.http import HttpResponseForbidden
+
+class RestrictAccessByTimeMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        # Get the current server time (24-hour format)
+        current_hour = datetime.now().hour
+
+        # Define restricted hours (outside 6PM to 9PM)
+        if not (18 <= current_hour <= 21):  # 18 is 6 PM, 21 is 9 PM
+            return HttpResponseForbidden("Access to the chat is restricted outside 6PM and 9PM.")
+
+        # Proceed with the request if within allowed hours
+        response = self.get_response(request)
+        return response
+
+#____________________________________________________________________________________________________
+
 
 # 3. Detect and Block offensive Language
 
