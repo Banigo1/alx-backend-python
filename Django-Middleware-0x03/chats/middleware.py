@@ -183,12 +183,14 @@ class RolePermissionMiddleware:
     Attributes:
         get_response (callable): The next middleware or view to handle the request.
     """
-    def __init__(self, get_response):
+def __init__(self, get_response):
     
         self.get_response = get_response
 
-    def __call__(self, request):
-    
+def __call__(self, request):
+        """
+        Check the user's role before processing the request.
+        """
         # Assuming the user's role is stored in `request.user.role`
         # You can adjust this based on how roles are implemented in your project
         user_role = getattr(request.user, 'role', None)
