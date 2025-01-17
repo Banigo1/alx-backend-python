@@ -171,6 +171,7 @@ class OffensiveLanguageMiddleware:
 # 4. Enforce chat user Role Permissions
 
 from django.http import HttpResponseForbidden
+from django.http import JsonResponse
 
 class RolePermissionMiddleware:
     """
@@ -183,32 +184,20 @@ class RolePermissionMiddleware:
         get_response (callable): The next middleware or view to handle the request.
     """
     def __init__(self, get_response):
-      """
-        Initializes the middleware with the given response handler.
-
-        Args:
-            get_response (callable): The next middleware or view to handle the request.
-       """
-      self.get_response = get_response
+    
+        self.get_response = get_response
 
     def __call__(self, request):
-        # Check if the user is authenticated
-      """
-        Processes incoming requests and checks the user's role.
+    
+        # Assuming the user's role is stored in `request.user.role`
+        # You can adjust this based on how roles are implemented in your project
+        user_role = getattr(request.user, 'role', None)
 
-        Args:
-            request (HttpRequest): The incoming HTTP request.
+        # Check if the user is an admin or moderator
+        if user_role not in ['admin', 'moderator']:
+            # Return a 403 Forbidden response if the user is not authorized
+            return JsonResponse({'error': 'Forbidden: You do not have permission to access this resource.'}, status=403)
 
-        Returns:
-            HttpResponse: The HTTP response to the request. If the user is not authorized, 
-            a 403 Forbidden error is returned.
-      """
-      if request.user.is_authenticated:
-            # Check the user's role (assuming roles are stored in a field like `role`)
-           request.user.groups.filter(name='admin').exists()  # Check if the user belongs to the 'admin' group.
-      else:
-            return HttpResponseForbidden("Access denied: You are not authenticated.")
-
-        # Proceed with the request if user has proper role
-      response = self.get_response(request)
-      return response
+        # If the user is authorized, proceed with the request
+        response = self.get_response(request)
+        return response
