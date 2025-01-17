@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.core.cache import cache
 import time
 
-# Configure logging
+# Configure logging to write to requests.log file
 logging.basicConfig(
     filename='requests.log',
     level=logging.INFO,
@@ -13,21 +13,21 @@ logging.basicConfig(
 
 """ Each middleware implements specific functionality:
 
-** RequestLoggingMiddleware:
-
+** RequestLoggingMiddleware
+----------------------------------
 Logs all requests to requests.log
 Includes timestamp, username, and request path
 Creates log file automatically
 
 
 ** RestrictAccessByTimeMiddleware:
-
+----------------------------------
 Restricts access to the chat between 9 AM and 6 PM
 Returns 403 Forbidden outside these hours
 
 
 ** RateThrottlingMiddleware:
-
+----------------------------------
 Limits users to 5 messages per minute
 Uses IP address to track users
 Uses Django's cache framework for tracking
@@ -35,7 +35,7 @@ Returns 429 Too Many Requests when limit exceeded
 
 
 ** RolePermissionMiddleware:
-
+----------------------------------
 Checks if user is admin or moderator
 Returns 403 Forbidden if user lacks proper permissions
 
@@ -53,6 +53,22 @@ class RequestLoggingMiddleware:
         logging.info(f"{datetime.now()} - User: {user} - Path: {request.path}")
         
         return self.get_response(request)
+    #------------------------------------------------------------------------
+
+class RequestLoggingMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+    
+    def __call__(self, request):
+        # Get the username if user is authenticated, otherwise use 'Anonymous'
+        user = request.user.username if request.user.is_authenticated else 'Anonymous'
+        
+        # Log the request with timestamp, user and path
+        logging.info(f"{datetime.now()} - User: {user} - Path: {request.path}")
+        
+        # Pass the request to the next middleware/view
+        return self.get_response(request)
+    #-----------------------------------------------------------------------------------
 
 class RestrictAccessByTimeMiddleware:
     def __init__(self, get_response):
