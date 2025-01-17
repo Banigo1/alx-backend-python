@@ -55,6 +55,8 @@ class RequestLoggingMiddleware:
         return self.get_response(request)
     #___________________________________________________________________________________
 
+# 3. Detect and Block offensive Language
+
 import time
 from collections import defaultdict
 from django.http import JsonResponse
