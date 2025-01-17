@@ -4,13 +4,6 @@ from django.http import HttpResponse
 from django.core.cache import cache
 import time
 
-# Configure logging to write to requests.log file
-logging.basicConfig(
-    filename='requests.log',
-    level=logging.INFO,
-    format='%(message)s'
-)
-
 """ Each middleware implements specific functionality:
 
 ** RequestLoggingMiddleware
@@ -46,13 +39,19 @@ class RequestLoggingMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        # Get username or 'Anonymous' if user is not authenticated
-        user = request.user.username if request.user.is_authenticated else 'Anonymous'
-        
-        # Log the request
-        logging.info(f"{datetime.now()} - User: {user} - Path: {request.path}")
-        
-        return self.get_response(request)
+        # Extract user and request path information
+        user = request.user if request.user.is_authenticated else "Anonymous"
+        path = request.path
+
+        # Log the information to a file
+        log_message = f"{datetime.datetime.now()} - User: {user} - Path: {path}\n"
+        with open("request_logs.txt", "a") as log_file:
+            log_file.write(log_message)
+
+        # Call the next middleware or view
+        response = self.get_response(request)
+        return response
+
 #_________________________________________________________________________________________________
 
 # 3. Detect and Block offensive Language
