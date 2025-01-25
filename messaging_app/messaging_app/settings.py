@@ -165,7 +165,14 @@ SIMPLE_JWT = {
     'LEEWAY': 0,                                      # Optional leeway for expiration time
 }
 
-CACHES = { 'default': { 'BACKEND': 'django.core.cache.backends.locmem.LocMemCache', 'LOCATION': 'unique-snowflake', } }
+# messagingapp/messagingapp/settings.py
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 
 """
 What These Settings Do
