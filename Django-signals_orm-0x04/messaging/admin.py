@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import Message, MessageHistory
 
 # Allow users to view previous versions of their messages in the admin interface.
 
