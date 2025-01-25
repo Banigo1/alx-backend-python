@@ -5,6 +5,12 @@ from django.core.cache import cache
 import time
 import logging
 
+# Configure logging
+logging.basicConfig(filename='request_logs.log', level=logging.INFO, 
+                    format='%(asctime)s - %(message)s')
+
+
+
 
 # Set up logging configuration
 logging.basicConfig(filename='requests.log', level=logging.INFO)
