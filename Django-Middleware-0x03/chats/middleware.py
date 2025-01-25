@@ -5,16 +5,6 @@ from django.core.cache import cache
 import time
 import logging
 
-# Configure logging
-logging.basicConfig(filename='request_logs.log', level=logging.INFO, 
-                    format='%(asctime)s - %(message)s')
-
-
-
-
-# Set up logging configuration
-logging.basicConfig(filename='requests.log', level=logging.INFO)
-
 """ Each middleware implements specific functionality:
 
 ** RequestLoggingMiddleware
@@ -43,6 +33,13 @@ Checks if user is admin or moderator
 Returns 403 Forbidden if user lacks proper permissions
 
 """
+
+# Configure logging
+logging.basicConfig(filename='request_logs.log', level=logging.INFO, 
+                    format='%(asctime)s - %(message)s')
+
+# Set up logging configuration
+logging.basicConfig(filename='requests.log', level=logging.INFO)
 
 # 1. Logging User Requests(Basic Middleware)
 
