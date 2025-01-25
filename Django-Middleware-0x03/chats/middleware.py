@@ -24,12 +24,11 @@ Restricts access to the chat between 9 AM and 6 PM
 Returns 403 Forbidden outside these hours
 
 
-** RateThrottlingMiddleware:
+** OffensiveLanguageMiddleware
 ----------------------------------
-Limits users to 5 messages per minute
-Uses IP address to track users
-Uses Django's cache framework for tracking
-Returns 429 Too Many Requests when limit exceeded
+Middleware to limit the number of chat messages a user can 
+send within a certain time window, based on their IP address. 
+This helps prevent spam and excessive messaging.
 
 
 ** RolePermissionMiddleware:
