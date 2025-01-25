@@ -21,3 +21,14 @@ class MessageHistory(models.Model):
 
     def __str__(self):
         return f"History for message {self.message.id}"
+
+@receiver(pre_save, sender=Message)
+def log_message_edit(sender, instance, **kwargs):
+    if instance.pk:  # Check if this is an update (not a new instance)
+        try:
+            old_message = Message.objects.get(pk=instance.pk)
+            if old_message.content != instance.content:  # Content has changed
+                MessageHistory.objects.create(message=old_message, old_content=old_message.content)
+                instance.edited = True  # Mark the message as edited
+        except Message.DoesNotExist:
+            pass
