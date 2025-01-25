@@ -1,8 +1,12 @@
-from django.shortcuts import render
-from django.views.decorators.cache import cache_page
-from .models import Message
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, get_object_or_404
+from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 
-@cache_page(60)  # Cache the view for 60 seconds
-def conversation_messages(request, conversation_id):
-    messages = Message.objects.filter(conversation_id=conversation_id).order_by('timestamp')
-    return render(request, 'conversation_messages.html', {'messages': messages})
+@login_required
+def delete_user(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        return redirect('home')  # Redirect to a home page or login page after deletion.
+    return HttpResponseForbidden("Invalid request method.")
