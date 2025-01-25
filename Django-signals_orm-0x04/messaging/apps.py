@@ -6,3 +6,4 @@ class MessagingConfig(AppConfig):
 
     def ready(self):
         import messaging.signals  # Ensure signals are imported
+
