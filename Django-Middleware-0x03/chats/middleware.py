@@ -1,9 +1,11 @@
-from datetime import datetime
+import time
+import logging
 import logging
 from django.http import HttpResponse
 from django.core.cache import cache
-import time
-import logging
+from datetime import datetime
+from django.http import HttpResponseForbidden
+from django.http import JsonResponse
 
 
 # Set up logging configuration
@@ -38,6 +40,8 @@ Checks if user is admin or moderator
 Returns 403 Forbidden if user lacks proper permissions
 
 """
+
+# 1. Logging User Requests(Basic Middleware)
 
 class RequestLoggingMiddleware:
     def __init__(self, get_response):
@@ -172,9 +176,6 @@ class OffensiveLanguageMiddleware:
 
 # 4. Enforce chat user Role Permissions
 
-from django.http import HttpResponseForbidden
-from django.http import JsonResponse
-
 class RolePermissionMiddleware:
     """
     Middleware to restrict access based on user roles. Only users with roles 'admin' or 'moderator'
@@ -186,22 +187,14 @@ class RolePermissionMiddleware:
         get_response (callable): The next middleware or view to handle the request.
     """
 def __init__(self, get_response):
-    
         self.get_response = get_response
 
-def __call__(self, request):
-        """
-        Check the user's role before processing the request.
-        """
-        # Assuming the user's role is stored in `request.user.role`
-        # You can adjust this based on how roles are implemented in your project
-        user_role = getattr(request.user, 'role', None)
-
-        # Check if the user is an admin or moderator
-        if user_role not in ['admin', 'moderator']:
-            # Return a 403 Forbidden response if the user is not authorized
-            return JsonResponse({'error': 'Forbidden: You do not have permission to access this resource.'}, status=403)
-
-        # If the user is authorized, proceed with the request
-        response = self.get_response(request)
-        return response
+        def __call__(self, request):
+        # Check if the user is authenticated
+            if request.user.is_authenticated:
+            # Check if the user has the required role
+             if request.user.is_staff or request.user.groups.filter(name__in=['Admin', 'Moderator']).exists():
+                return self.get_response(request)
+        
+        # If the user is not authorized, return a 403 Forbidden response
+        return HttpResponseForbidden("You do not have permission to access this resource.")
