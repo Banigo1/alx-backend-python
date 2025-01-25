@@ -65,3 +65,13 @@ class MessageManager(models.Manager):
     def unread_for_user(self, user):
         return self.filter(is_read=False, recipient=user)
     
+
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Notification for {self.user} regarding message {self.message}'
+    

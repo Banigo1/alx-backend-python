@@ -25,3 +25,9 @@ class MessageHistory(models.Model):
 def create_message_history(sender, instance, created, **kwargs):
     action = 'created' if created else 'updated'
     MessageHistory.objects.create(message=instance, action=action)
+
+
+@receiver(post_save, sender=Message)
+def create_notification(sender, instance, created, **kwargs):
+    if created:
+        Notification.objects.create(user=instance.receiver, message=instance)
