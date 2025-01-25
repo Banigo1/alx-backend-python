@@ -9,7 +9,7 @@ def conversation_messages(request, conversation_id):
 
 def inbox_view(request):
     # Retrieve unread messages for the logged-in user with optimized query
-    unread_messages = Message.unread_objects.for_user(request.user).select_related('user').only('id', 'content', 'created_at')
+    unread_messages = Message.unread_objects.for_user(request.user).only('id', 'content', 'created_at')
     
     # Render the inbox template with the unread messages
     return render(request, 'inbox.html', {'unread_messages': unread_messages})
