@@ -1,4 +1,5 @@
 from . import views
+from .views import unread_messages
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import NotificationViewSet, DeleteUserView, ThreadedConversationView
@@ -14,4 +15,5 @@ urlpatterns = [
     path('messages/unread/', UnreadMessagesView.as_view(), name='unread_messages'),
     path('delete_user/', views.delete_user, name='delete_user'),
     path('conversation/<int:message_id>/', views.conversation_view, name='conversation_view'),
+    path('unread/', unread_messages, name='unread_messages'),
 ]

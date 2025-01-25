@@ -34,6 +34,11 @@ class Message(models.Model):
 
 
 class UnreadMessagesManager(models.Manager):
+    """Custom manager to fetch unread messages for a user."""
+    def unread_for_user(self, user):
+        return self.filter(is_read=False, recipient=user)
+
+class UnreadMessagesManager(models.Manager):
     def for_user(self, user):
         return self.filter(user=user, read=False).only('id', 'content', 'created_at')  # Optimize query
 
@@ -55,3 +60,8 @@ def log_message_edit(sender, instance, **kwargs):
                 instance.edited = True  # Mark the message as edited
         except Message.DoesNotExist:
             pass
+
+class MessageManager(models.Manager):
+    def unread_for_user(self, user):
+        return self.filter(is_read=False, recipient=user)
+    

@@ -14,4 +14,12 @@ def inbox_view(request):
     # Render the inbox template with the unread messages
     return render(request, 'inbox.html', {'unread_messages': unread_messages})
 
-    
+
+def unread_messages(request):
+    if request.user.is_authenticated:
+        # Fetch unread messages for the logged-in user
+        unread_messages = Message.unread.unread_for_user(request.user).select_related('sender', 'recipient')
+        return render(request, 'unread_messages.html', {'messages': unread_messages})
+    else:
+        return render(request, 'error.html', {'message': 'You need to log in to see your messages.'})
+
