@@ -7,7 +7,7 @@ import logging
 
 
 # Set up logging configuration
-logging.basicConfig(filename='request_logs.log', level=logging.INFO)
+logging.basicConfig(filename='requests.log', level=logging.INFO)
 
 """ Each middleware implements specific functionality:
 
