@@ -35,7 +35,7 @@ Returns 403 Forbidden if user lacks proper permissions
 """
 
 # Configure logging
-logging.basicConfig(filename='request_logs.log', level=logging.INFO, 
+logging.basicConfig(filename='requests.log', level=logging.INFO, 
                     format='%(asctime)s - %(message)s')
 
 # Set up logging configuration
