@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.cache import cache_page
 from .models import Message # the Message model
+from django.db.models import Prefetch
 
 @cache_page(60)  # Cache the view for 60 seconds
 def conversation_messages(request, conversation_id):
@@ -23,3 +24,7 @@ def unread_messages(request):
     else:
         return render(request, 'error.html', {'message': 'You need to log in to see your messages.'})
 
+
+def message_list(request):
+    messages = Message.objects.prefetch_related(Prefetch('replies')).all()
+    return render(request, 'your_template.html', {'messages': messages})

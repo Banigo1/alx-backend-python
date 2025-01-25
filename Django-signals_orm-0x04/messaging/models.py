@@ -8,6 +8,7 @@ from .models import Message
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
+    parent_message = models.ForeignKey('self', null=True, blank=True, related_name='replies', on_delete=models.CASCADE)
     read = models.BooleanField(default=False)  # New field to track read status
     created_at = models.DateTimeField(auto_now_add=True)
     edited_at = models.DateTimeField(null=True, blank=True)  # New field to track when the message was edited
