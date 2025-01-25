@@ -13,4 +13,5 @@ urlpatterns = [
     path('conversations/<int:conversation_id>/', ThreadedConversationView.as_view(), name='threaded_conversation'),
     path('messages/unread/', UnreadMessagesView.as_view(), name='unread_messages'),
     path('delete_user/', views.delete_user, name='delete_user'),
+    path('conversation/<int:message_id>/', views.conversation_view, name='conversation_view'),
 ]

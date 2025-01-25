@@ -1,0 +1,8 @@
+<li>
+    <strong>{{ reply.message.user.username }}</strong>: {{ reply.message.content }}
+    <ul>
+        {% for child_reply in reply.replies %}
+            {% include 'messaging/threaded_message.html' with reply=child_reply %}
+        {% endfor %}
+    </ul>
+</li>

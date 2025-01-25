@@ -1,0 +1,10 @@
+<h1>Conversation</h1>
+<div class="main-message">
+    <strong>{{ main_message.user.username }}</strong>: {{ main_message.content }}
+</div>
+
+<ul class="replies">
+    {% for reply in threaded_replies %}
+        {% include 'messaging/threaded_message.html' with reply=reply %}
+    {% endfor %}
+</ul>
