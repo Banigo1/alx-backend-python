@@ -1,11 +1,9 @@
-import time
-import logging
+from datetime import datetime
 import logging
 from django.http import HttpResponse
 from django.core.cache import cache
-from datetime import datetime
-from django.http import HttpResponseForbidden
-from django.http import JsonResponse
+import time
+import logging
 
 
 # Set up logging configuration
@@ -175,6 +173,9 @@ class OffensiveLanguageMiddleware:
 #_____________________________________________________________________________________________
 
 # 4. Enforce chat user Role Permissions
+
+from django.http import HttpResponseForbidden
+from django.http import JsonResponse
 
 class RolePermissionMiddleware:
     """
