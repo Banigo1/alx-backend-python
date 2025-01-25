@@ -13,7 +13,7 @@ class Message(models.Model):
     edited_at = models.DateTimeField(null=True, blank=True)  # New field to track when the message was edited
     edited_by = models.ForeignKey(User, null=True, blank=True, related_name='edited_messages', on_delete=models.SET_NULL)
     objects = models.Manager()  # Default manager
-    unread_objects = UnreadMessagesManager()  # Custom manager for unread messages
+    # unread_objects = UnreadMessagesManager()  # Custom manager for unread messages
 
 def __str__(self):
         return f"{self.user.username}: {self.content[:30]}{'...' if len(self.content) > 30 else ''}"
