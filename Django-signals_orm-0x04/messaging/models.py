@@ -1,18 +1,36 @@
-# Django-Chat/Models.py
-
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from django.shortcuts import render
+from .models import Message
 
 class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    edited = models.BooleanField(default=False)  # Tracks if the message has been edited
+    read = models.BooleanField(default=False)  # New field to track read status
+    created_at = models.DateTimeField(auto_now_add=True)# Tracks if the message has been edited
 
     def __str__(self):
         return f"{self.user.username}: {self.content[:30]}{'...' if len(self.content) > 30 else ''}"
+
+def inbox_view(request):
+    unread_messages = Message.unread_objects.for_user(request.user)
+    return render(request, 'inbox.html', {'unread_messages': unread_messages})
+
+class Message(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = models.Manager()  # Default manager
+    unread_objects = UnreadMessagesManager()  # Custom manager for unread messages
+
+
+class UnreadMessagesManager(models.Manager):
+    def for_user(self, user):
+        return self.filter(user=user, read=False).only('id', 'content', 'created_at')  # Optimize query
 
 class MessageHistory(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name="history")
