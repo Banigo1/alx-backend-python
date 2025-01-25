@@ -13,3 +13,5 @@ def inbox_view(request):
     
     # Render the inbox template with the unread messages
     return render(request, 'inbox.html', {'unread_messages': unread_messages})
+
+    

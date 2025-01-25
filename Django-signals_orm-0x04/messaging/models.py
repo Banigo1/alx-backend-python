@@ -9,10 +9,15 @@ class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     read = models.BooleanField(default=False)  # New field to track read status
-    created_at = models.DateTimeField(auto_now_add=True)# Tracks if the message has been edited
+    created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(null=True, blank=True)  # New field to track when the message was edited
+    edited_by = models.ForeignKey(User, null=True, blank=True, related_name='edited_messages', on_delete=models.SET_NULL)
+    objects = models.Manager()  # Default manager
+    unread_objects = UnreadMessagesManager()  # Custom manager for unread messages
 
-    def __str__(self):
+def __str__(self):
         return f"{self.user.username}: {self.content[:30]}{'...' if len(self.content) > 30 else ''}"
+
 
 def inbox_view(request):
     unread_messages = Message.unread_objects.for_user(request.user)
@@ -50,3 +55,4 @@ def log_message_edit(sender, instance, **kwargs):
                 instance.edited = True  # Mark the message as edited
         except Message.DoesNotExist:
             pass
+
