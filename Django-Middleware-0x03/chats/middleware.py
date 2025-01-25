@@ -3,7 +3,11 @@ import logging
 from django.http import HttpResponse
 from django.core.cache import cache
 import time
+import logging
 
+
+# Set up logging configuration
+logging.basicConfig(filename='requests.log', level=logging.INFO)
 
 """ Each middleware implements specific functionality:
 
@@ -42,12 +46,10 @@ class RequestLoggingMiddleware:
     def __call__(self, request):
         # Extract user and request path information
         user = request.user if request.user.is_authenticated else "Anonymous"
-        path = request.path
+        
 
         # Log the information to a file
-        log_message = f"{datetime.datetime.now()} - User: {user} - Path: {path}\n"
-        with open("request_logs.txt", "a") as log_file:
-            log_file.write(log_message)
+        logging.info(f"{datetime.now()} - User: {user} - Path: {request.path}")
 
         # Call the next middleware or view
         response = self.get_response(request)
