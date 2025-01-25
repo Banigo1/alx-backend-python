@@ -38,8 +38,11 @@ class UnreadMessagesManager(models.Manager):
         return self.filter(user=user, read=False).only('id', 'content', 'created_at')  # Optimize query
 
 class MessageHistory(models.Model):
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name="history")
+    # message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name="history")
     old_content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    message = models.ForeignKey('Message', on_delete=models.CASCADE)
+    action = models.CharField(max_length=10)  # e.g., 'created', 'updated'
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -56,3 +59,5 @@ def log_message_edit(sender, instance, **kwargs):
         except Message.DoesNotExist:
             pass
 
+
+  
