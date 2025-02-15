@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'chats',
     'rest_framework_simplejwt.token_blacklist',
+    'rest_framework_simplejwt',
 ]
 
 
@@ -142,6 +144,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
@@ -150,7 +153,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Duration for access tokens
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Duration for access tokens
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Duration for refresh tokens
     'ROTATE_REFRESH_TOKENS': True,                    # Whether to rotate refresh tokens
     'BLACKLIST_AFTER_ROTATION': True,                 # Blacklist used refresh tokens
@@ -163,6 +166,7 @@ SIMPLE_JWT = {
     'JSON_ENCODER': None,                             # Custom JSON encoder if needed
     'JWK_URL': None,                                  # Optional JWK URL
     'LEEWAY': 0,                                      # Optional leeway for expiration time
+
 }
 
 # messagingapp/messagingapp/settings.py
