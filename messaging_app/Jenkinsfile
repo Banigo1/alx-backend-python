@@ -1,0 +1,66 @@
+pipeline {
+    agent {
+        docker {
+            image 'python:3.12'
+            args '-u root:root'
+        }
+    }
+    
+    environment {
+        PYTHONPATH = "${WORKSPACE}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    credentialsId: 'github-credentials',
+                    url: 'https://github.com/banigo1/alx-backend-python.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                dir('messaging_app') {
+                    sh 'pip install --user -r requirements.txt'
+                    sh 'pip install --user pytest pytest-html'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                dir('messaging_app') {
+                    sh 'pytest tests/ --html=report.html --self-contained-html'
+                }
+            }
+        }
+
+        stage('Archive Reports') {
+            steps {
+                dir('messaging_app') {
+                    archiveArtifacts artifacts: 'report.html', allowEmptyArchive: false
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            publishHTML (target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'messaging_app',
+                reportFiles: 'report.html',
+                reportName: 'Test Report'
+            ])
+        }
+        success {
+            echo 'Tests completed successfully!'
+        }
+        failure {
+            echo 'Tests failed!'
+        }
+    }
+}
