@@ -64,3 +64,35 @@ pipeline {
         }
     }
 }
+
+
+    environment {
+        DOCKER_IMAGE = "Precious Banigo/messaging-app:latest"
+        DOCKER_CREDENTIALS = "docker-hub-credentials"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/banigo1/alx-backend-python.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t $DOCKER_IMAGE messaging_app/"
+                }
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: DOCKER_CREDENTIALS, url: '') {
+                        sh "docker push $DOCKER_IMAGE"
+                    }
+                }
+            }
+        }
+    }
