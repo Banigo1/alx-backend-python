@@ -34,6 +34,7 @@ AUTH_USER_MODEL = 'chats.CustomUser'
 # Application definition
 
 INSTALLED_APPS = [
+    'messaging_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
     'chats',
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework_simplejwt',
+    
 ]
 
 
