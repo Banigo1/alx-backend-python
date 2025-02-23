@@ -1,8 +1,12 @@
 .env
+__pycache__/
+*.pyc
+*.pyo
+.git
 test_client222
 db.sqlite3
 __pycache__
 messaging-env
 alx_travel_app-HvD33Y_d
 Required_Files/
-.git
+.gitignore
